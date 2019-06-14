@@ -11,7 +11,7 @@ import { Foldable2v1 } from './Foldable2v';
 import { FoldableWithIndex1 } from './FoldableWithIndex';
 import { Endomorphism, Predicate, Refinement } from './function';
 import { FunctorWithIndex1 } from './FunctorWithIndex';
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT';
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT';
 import { Monad1 } from './Monad';
 import { Monoid } from './Monoid';
 import { Option } from './Option';
@@ -32,7 +32,7 @@ declare global {
     }
 }
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Array: Array<A>;
     }
 }
@@ -102,15 +102,15 @@ export declare const getOrd: <A>(O: Ord<A>) => Ord<A[]>;
  * @since 1.0.0
  * @deprecated
  */
-export declare function traverse<F extends URIS3>(F: Applicative3<F>): <U, L, A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>;
+export declare function traverse<F extends URIS3>(F: Applicative3<F>): <U, L, A, B>(ta: Array<A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Array<B>>;
 /** @deprecated */
-export declare function traverse<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A, B>(ta: Array<A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, Array<B>>;
+export declare function traverse<F extends URIS3, U, L>(F: Applicative3C<F, U, L>): <A, B>(ta: Array<A>, f: (a: A) => Kind3<F, U, L, B>) => Kind3<F, U, L, Array<B>>;
 /** @deprecated */
-export declare function traverse<F extends URIS2>(F: Applicative2<F>): <L, A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>;
+export declare function traverse<F extends URIS2>(F: Applicative2<F>): <L, A, B>(ta: Array<A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Array<B>>;
 /** @deprecated */
-export declare function traverse<F extends URIS2, L>(F: Applicative2C<F, L>): <A, B>(ta: Array<A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, Array<B>>;
+export declare function traverse<F extends URIS2, L>(F: Applicative2C<F, L>): <A, B>(ta: Array<A>, f: (a: A) => Kind2<F, L, B>) => Kind2<F, L, Array<B>>;
 /** @deprecated */
-export declare function traverse<F extends URIS>(F: Applicative1<F>): <A, B>(ta: Array<A>, f: (a: A) => Type<F, B>) => Type<F, Array<B>>;
+export declare function traverse<F extends URIS>(F: Applicative1<F>): <A, B>(ta: Array<A>, f: (a: A) => Kind<F, B>) => Kind<F, Array<B>>;
 /** @deprecated */
 export declare function traverse<F>(F: Applicative<F>): <A, B>(ta: Array<A>, f: (a: A) => HKT<F, B>) => HKT<F, Array<B>>;
 /**

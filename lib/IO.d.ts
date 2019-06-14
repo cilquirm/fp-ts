@@ -96,7 +96,7 @@ import { Semigroup } from './Semigroup';
 import { Lazy } from './function';
 import { MonadIO1 } from './MonadIO';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         IO: IO<A>;
     }
 }

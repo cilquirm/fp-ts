@@ -10,7 +10,7 @@ import { IO } from './IO';
 import { Monad2 } from './Monad';
 import { MonadThrow2 } from './MonadThrow';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         IOEither: IOEither<L, A>;
     }
 }

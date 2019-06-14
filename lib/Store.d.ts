@@ -1,9 +1,9 @@
 import { Comonad2 } from './Comonad';
 import { Endomorphism } from './function';
 import { Functor, Functor1, Functor2, Functor2C, Functor3 } from './Functor';
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT';
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         Store: Store<L, A>;
     }
 }
@@ -50,10 +50,10 @@ export declare const seeks: <S>(f: Endomorphism<S>) => <A>(sa: Store<S, A>) => S
  *
  * @since 1.0.0
  */
-export declare function experiment<F extends URIS3>(F: Functor3<F>): <U, L, S>(f: (s: S) => Type3<F, U, L, S>) => <A>(wa: Store<S, A>) => Type3<F, U, L, A>;
-export declare function experiment<F extends URIS2>(F: Functor2<F>): <L, S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>;
-export declare function experiment<F extends URIS2, L>(F: Functor2C<F, L>): <S>(f: (s: S) => Type2<F, L, S>) => <A>(wa: Store<S, A>) => Type2<F, L, A>;
-export declare function experiment<F extends URIS>(F: Functor1<F>): <S>(f: (s: S) => Type<F, S>) => <A>(wa: Store<S, A>) => Type<F, A>;
+export declare function experiment<F extends URIS3>(F: Functor3<F>): <U, L, S>(f: (s: S) => Kind3<F, U, L, S>) => <A>(wa: Store<S, A>) => Kind3<F, U, L, A>;
+export declare function experiment<F extends URIS2>(F: Functor2<F>): <L, S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>;
+export declare function experiment<F extends URIS2, L>(F: Functor2C<F, L>): <S>(f: (s: S) => Kind2<F, L, S>) => <A>(wa: Store<S, A>) => Kind2<F, L, A>;
+export declare function experiment<F extends URIS>(F: Functor1<F>): <S>(f: (s: S) => Kind<F, S>) => <A>(wa: Store<S, A>) => Kind<F, A>;
 export declare function experiment<F>(F: Functor<F>): <S>(f: (s: S) => HKT<F, S>) => <A>(wa: Store<S, A>) => HKT<F, A>;
 /**
  * @since 1.0.0

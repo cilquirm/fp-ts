@@ -10,7 +10,7 @@ import { Eq } from './Eq';
 import { Show } from './Show';
 import { TraversableWithIndex1 } from './TraversableWithIndex';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         NonEmptyArray2v: NonEmptyArray<A>;
     }
 }

@@ -23,7 +23,7 @@ import { Witherable2C } from './Witherable';
 import { MonadThrow2C } from './MonadThrow';
 import { Show } from './Show';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         Validation: Validation<L, A>;
     }
 }

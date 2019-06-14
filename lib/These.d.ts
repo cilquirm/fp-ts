@@ -9,7 +9,7 @@ import { Eq } from './Eq';
 import { Show } from './Show';
 import { Traversable2v2 } from './Traversable2v';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         These: These<L, A>;
     }
 }

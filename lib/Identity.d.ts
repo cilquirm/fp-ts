@@ -8,7 +8,7 @@ import { Eq } from './Eq';
 import { Show } from './Show';
 import { Traversable2v1 } from './Traversable2v';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Identity: Identity<A>;
     }
 }

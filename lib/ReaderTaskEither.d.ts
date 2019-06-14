@@ -13,7 +13,7 @@ import TaskEither = taskEither.TaskEither;
 import { MonadTask3 } from './MonadTask';
 import { MonadThrow3 } from './MonadThrow';
 declare module './HKT' {
-    interface URI2HKT3<U, L, A> {
+    interface URItoKind3<U, L, A> {
         ReaderTaskEither: ReaderTaskEither<U, L, A>;
     }
 }

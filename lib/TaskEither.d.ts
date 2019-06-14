@@ -16,7 +16,7 @@ import { Monoid } from './Monoid';
 import { Semigroup } from './Semigroup';
 import { Task } from './Task';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         TaskEither: TaskEither<L, A>;
     }
 }

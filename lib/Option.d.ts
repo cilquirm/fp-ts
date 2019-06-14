@@ -98,7 +98,7 @@ import { Traversable2v1 } from './Traversable2v';
 import { Witherable1 } from './Witherable';
 import { Show } from './Show';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Option: Option<A>;
     }
 }

@@ -2,7 +2,7 @@ import { Eq } from './Eq';
 import { Filterable2 } from './Filterable';
 import { FilterableWithIndex2C } from './FilterableWithIndex';
 import { Foldable2v, Foldable2v1, Foldable2v2, Foldable2v3 } from './Foldable2v';
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT';
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT';
 import { Monoid } from './Monoid';
 import { Option } from './Option';
 import { Ord } from './Ord';
@@ -12,7 +12,7 @@ import { TraversableWithIndex2C } from './TraversableWithIndex';
 import { Unfoldable, Unfoldable1 } from './Unfoldable';
 import { Witherable2C } from './Witherable';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         Map: Map<L, A>;
     }
 }
@@ -73,7 +73,7 @@ export declare const toArray: <K>(O: Ord<K>) => <A>(m: Map<K, A>) => [K, A][];
  *
  * @since 1.14.0
  */
-export declare function toUnfoldable<K, F extends URIS>(O: Ord<K>, unfoldable: Unfoldable1<F>): <A>(d: Map<K, A>) => Type<F, [K, A]>;
+export declare function toUnfoldable<K, F extends URIS>(O: Ord<K>, unfoldable: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>;
 export declare function toUnfoldable<K, F>(O: Ord<K>, unfoldable: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>;
 /**
  * Use `insertAt`
@@ -147,9 +147,9 @@ export declare const singleton: <K, A>(k: K, a: A) => Map<K, A>;
  *
  * @since 1.14.0
  */
-export declare function fromFoldable<K, F extends URIS3>(E: Eq<K>, F: Foldable2v3<F>): <U, L, A>(ta: Type3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
-export declare function fromFoldable<K, F extends URIS2>(E: Eq<K>, F: Foldable2v2<F>): <L, A>(ta: Type2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
-export declare function fromFoldable<K, F extends URIS>(E: Eq<K>, F: Foldable2v1<F>): <A>(ta: Type<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
+export declare function fromFoldable<K, F extends URIS3>(E: Eq<K>, F: Foldable2v3<F>): <U, L, A>(ta: Kind3<F, U, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
+export declare function fromFoldable<K, F extends URIS2>(E: Eq<K>, F: Foldable2v2<F>): <L, A>(ta: Kind2<F, L, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
+export declare function fromFoldable<K, F extends URIS>(E: Eq<K>, F: Foldable2v1<F>): <A>(ta: Kind<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
 export declare function fromFoldable<K, F>(E: Eq<K>, F: Foldable2v<F>): <A>(ta: HKT<F, [K, A]>, onConflict: (existing: A, a: A) => A) => Map<K, A>;
 /**
  * @since 1.14.0

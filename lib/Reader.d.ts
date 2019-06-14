@@ -6,7 +6,7 @@ import { Choice2 } from './Choice';
 import { Semigroup } from './Semigroup';
 import { Monoid } from './Monoid';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         Reader: Reader<L, A>;
     }
 }

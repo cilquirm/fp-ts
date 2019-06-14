@@ -7,7 +7,7 @@ import { Semigroup } from './Semigroup';
 import { Eq } from './Eq';
 import { Show } from './Show';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
+    interface URItoKind2<L, A> {
         Const: Const<L, A>;
     }
 }

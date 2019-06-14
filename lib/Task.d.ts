@@ -11,7 +11,7 @@ import { MonadTask1 } from './MonadTask';
 import { Monoid } from './Monoid';
 import { Semigroup } from './Semigroup';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Task: Task<A>;
     }
 }
