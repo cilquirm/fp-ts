@@ -9,9 +9,23 @@
  *
  * See [Getting started with fp-ts: Ord](https://dev.to/gcanti/getting-started-with-fp-ts-ord-5f1e)
  */
+import { Contravariant1 } from './Contravariant';
+import { Eq } from './Eq';
 import { Ordering } from './Ordering';
 import { Semigroup } from './Semigroup';
-import { Eq } from './Eq';
+declare module './HKT' {
+    interface URItoKind<A> {
+        Ord: Ord<A>;
+    }
+}
+/**
+ * @since 1.19.0
+ */
+export declare const URI = "Ord";
+/**
+ * @since 1.19.0
+ */
+export declare type URI = typeof URI;
 /**
  * @since 1.0.0
  */
@@ -118,7 +132,7 @@ export declare const fromCompare: <A>(compare: (x: A, y: A) => Ordering) => Ord<
 /**
  * @since 1.0.0
  */
-export declare function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>;
+export declare function contramap<A, B>(f: (b: B) => A): (O: Ord<A>) => Ord<B>;
 /** @deprecated */
 export declare function contramap<A, B>(f: (b: B) => A, O: Ord<A>): Ord<B>;
 /**
@@ -149,6 +163,10 @@ export declare const getProductOrd: <A, B>(OA: Ord<A>, OB: Ord<B>) => Ord<[A, B]
  * @since 1.3.0
  */
 export declare const getDualOrd: <A>(O: Ord<A>) => Ord<A>;
+/**
+ * @since 1.19.0
+ */
+export declare const ord: Contravariant1<URI>;
 /**
  * @since 1.4.0
  */

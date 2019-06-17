@@ -1,3 +1,17 @@
+import { Contravariant1 } from './Contravariant';
+declare module './HKT' {
+    interface URItoKind<A> {
+        Eq: Eq<A>;
+    }
+}
+/**
+ * @since 1.19.0
+ */
+export declare const URI = "Eq";
+/**
+ * @since 1.19.0
+ */
+export declare type URI = typeof URI;
 /**
  * @file The `Eq` type class represents types which support decidable equality.
  *
@@ -61,11 +75,11 @@ export declare function getTupleEq<T extends Array<Eq<any>>>(...eqs: T): Eq<{
     [K in keyof T]: T[K] extends Eq<infer A> ? A : never;
 }>;
 /**
- * Returns the `Eq` corresponding to the partitions of `B` induced by `f`
- *
  * @since 1.19.0
  */
-export declare function contramap<A, B>(E: Eq<A>, f: (b: B) => A): Eq<B>;
+export declare const eq: Contravariant1<URI>;
+declare const contramap: <A, B>(f: (b: B) => A) => (fa: Eq<A>) => Eq<B>;
+export { contramap };
 /**
  * @since 1.19.0
  */
