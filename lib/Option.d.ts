@@ -97,6 +97,7 @@ import { Eq } from './Eq';
 import { Traversable2v1 } from './Traversable2v';
 import { Witherable1 } from './Witherable';
 import { Show } from './Show';
+import { MonadThrow1 } from './MonadThrow';
 declare module './HKT' {
     interface URItoKind<A> {
         Option: Option<A>;
@@ -580,7 +581,7 @@ export declare const getRefinement: <A, B extends A>(getOption: (a: A) => Option
 /**
  * @since 1.0.0
  */
-export declare const option: Monad1<URI> & Foldable2v1<URI> & Plus1<URI> & Traversable2v1<URI> & Alternative1<URI> & Extend1<URI> & Compactable1<URI> & Filterable1<URI> & Witherable1<URI>;
+export declare const option: Monad1<URI> & Foldable2v1<URI> & Plus1<URI> & Traversable2v1<URI> & Alternative1<URI> & Extend1<URI> & Compactable1<URI> & Filterable1<URI> & Witherable1<URI> & MonadThrow1<URI>;
 /**
  * Returns an `L` value if possible
  *

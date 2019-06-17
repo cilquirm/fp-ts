@@ -279,11 +279,6 @@ export declare const left: <L, A>(l: L) => Either<L, A>;
  */
 export declare const right: <L, A>(a: A) => Either<L, A>;
 /**
- * @since 1.0.0
- */
-export declare function fromPredicate<L, A, B extends A>(predicate: Refinement<A, B>, onFalse: (a: A) => L): (a: A) => Either<L, B>;
-export declare function fromPredicate<L, A>(predicate: Predicate<A>, onFalse: (a: A) => L): (a: A) => Either<L, A>;
-/**
  * Use `fromPredicate` instead
  *
  * @since 1.6.0
@@ -297,12 +292,6 @@ export declare const fromRefinement: <L, A, B extends A>(refinement: Refinement<
  * @since 1.0.0
  */
 export declare const fromOption: <L>(onNone: L) => <A>(fa: Option<A>) => Either<L, A>;
-/**
- * Lazy version of `fromOption`
- *
- * @since 1.3.0
- */
-export declare const fromOptionL: <L>(onNone: Lazy<L>) => <A>(fa: Option<A>) => Either<L, A>;
 /**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`
@@ -432,11 +421,6 @@ export declare function elem<A>(E: Eq<A>): (a: A) => <E>(ma: Either<E, A>) => bo
 /**
  * @since 1.19.0
  */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>;
-/**
- * @since 1.19.0
- */
 export declare function getValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<URI, E>;
 /**
  * @since 1.19.0
@@ -446,5 +430,17 @@ export declare function getValidationSemigroup<E, A>(SE: Semigroup<E>, SA: Semig
  * @since 1.19.0
  */
 export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A>): Monoid<Either<E, A>>;
-declare const alt: <L, A>(that: () => Either<L, A>) => (fa: Either<L, A>) => Either<L, A>, ap: <L, A>(fa: Either<L, A>) => <B>(fab: Either<L, (a: A) => B>) => Either<L, B>, apFirst: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, A>, apSecond: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: Either<L, A>) => Either<M, B>, chain: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, B>, chainFirst: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, A>, duplicate: <L, A>(ma: Either<L, A>) => Either<L, Either<L, A>>, extend: <L, A, B>(f: (fa: Either<L, A>) => B) => (ma: Either<L, A>) => Either<L, B>, flatten: <L, A>(mma: Either<L, Either<L, A>>) => Either<L, A>, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: Either<L, A>) => M, map: <A, B>(f: (a: A) => B) => <L>(fa: Either<L, A>) => Either<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: Either<L, A>) => Either<M, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: Either<L, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: Either<L, A>) => B;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, duplicate, extend, flatten, foldMap, map, mapLeft, reduce, reduceRight };
+declare const alt: <L, A>(that: () => Either<L, A>) => (fa: Either<L, A>) => Either<L, A>, ap: <L, A>(fa: Either<L, A>) => <B>(fab: Either<L, (a: A) => B>) => Either<L, B>, apFirst: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, A>, apSecond: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: Either<L, A>) => Either<M, B>, chain: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, B>, chainFirst: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, A>, duplicate: <L, A>(ma: Either<L, A>) => Either<L, Either<L, A>>, extend: <L, A, B>(f: (fa: Either<L, A>) => B) => (ma: Either<L, A>) => Either<L, B>, flatten: <L, A>(mma: Either<L, Either<L, A>>) => Either<L, A>, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: Either<L, A>) => M, map: <A, B>(f: (a: A) => B) => <L>(fa: Either<L, A>) => Either<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: Either<L, A>) => Either<M, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: Either<L, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: Either<L, A>) => B, fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>;
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>;
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, duplicate, extend, flatten, foldMap, map, mapLeft, reduce, reduceRight, fromPredicate, filterOrElse };
+/**
+ * Lazy version of `fromOption`
+ *
+ * @since 1.3.0
+ */
+export declare const fromOptionL: <L>(onNone: Lazy<L>) => <A>(fa: Option<A>) => Either<L, A>;

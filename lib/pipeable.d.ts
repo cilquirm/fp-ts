@@ -18,6 +18,7 @@ import { Monoid } from './Monoid';
 import { Option } from './Option';
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor4 } from './Profunctor';
 import { Semigroupoid, Semigroupoid2, Semigroupoid2C, Semigroupoid3, Semigroupoid4 } from './Semigroupoid';
+import { MonadThrow, MonadThrow3, MonadThrow2C, MonadThrow2, MonadThrow4, MonadThrow1 } from './MonadThrow';
 /**
  * @since 1.19.0
  */
@@ -462,25 +463,97 @@ export interface PipeableSemigroupoid3<F extends URIS3> {
 export interface PipeableSemigroupoid4<F extends URIS4> {
     readonly compose: <X, U, L, A>(la: Kind4<F, X, U, L, A>) => <B>(ab: Kind4<F, X, U, A, B>) => Kind4<F, X, U, L, B>;
 }
+export interface PipeableMonadThrow<F> {
+    readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => HKT<F, A>;
+    readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>;
+    readonly fromPredicate: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>;
+    };
+    readonly filterOrElse: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>;
+    };
+}
+export interface PipeableMonadThrow1<F extends URIS> {
+    readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind<F, A>;
+    readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>;
+    readonly fromPredicate: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>;
+    };
+    readonly filterOrElse: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, A>;
+    };
+}
+export interface PipeableMonadThrow2<F extends URIS2> {
+    readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>;
+    readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>;
+    readonly fromPredicate: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>;
+    };
+    readonly filterOrElse: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>;
+    };
+}
+export interface PipeableMonadThrow2C<F extends URIS2, E> {
+    readonly fromOption: (onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>;
+    readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>;
+    readonly fromPredicate: {
+        <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>;
+        <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>;
+    };
+    readonly filterOrElse: {
+        <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>;
+        <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>;
+    };
+}
+export interface PipeableMonadThrow3<F extends URIS3> {
+    readonly fromOption: <E>(onNone: () => E) => <U, A>(ma: Option<A>) => Kind3<F, U, E, A>;
+    readonly fromEither: <U, E, A>(ma: Either<E, A>) => Kind3<F, U, E, A>;
+    readonly fromPredicate: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, A>;
+    };
+    readonly filterOrElse: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(ma: Kind3<F, U, E, A>) => Kind3<F, U, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <U>(ma: Kind3<F, U, E, A>) => Kind3<F, U, E, A>;
+    };
+}
+export interface PipeableMonadThrow4<F extends URIS4> {
+    readonly fromOption: <E>(onNone: () => E) => <X, U, A>(ma: Option<A>) => Kind4<F, X, U, E, A>;
+    readonly fromEither: <X, U, E, A>(ma: Either<E, A>) => Kind4<F, X, U, E, A>;
+    readonly fromPredicate: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(a: A) => Kind4<F, X, U, E, A>;
+    };
+    readonly filterOrElse: {
+        <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <X, U>(ma: Kind4<F, X, U, E, A>) => Kind4<F, X, U, E, B>;
+        <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <X, U>(ma: Kind4<F, X, U, E, A>) => Kind4<F, X, U, E, A>;
+    };
+}
 /**
  * @since 1.19.0
  */
 export declare function pipeable<F extends URIS4, I>(I: {
     URI: F;
-} & I): (I extends Chain4<F> ? PipeableChain4<F> : I extends Apply4<F> ? PipeableApply4<F> : I extends Functor4<F> ? PipeableFunctor4<F> : {}) & (I extends Contravariant4<F> ? PipeableContravariant4<F> : {}) & (I extends FunctorWithIndex4<F, infer Ix> ? PipeableFunctorWithIndex4<F, Ix> : {}) & (I extends Bifunctor4<F> ? PipeableBifunctor4<F> : {}) & (I extends Extend4<F> ? PipeableExtend4<F> : {}) & (I extends FoldableWithIndex4<F, infer Ix> ? PipeableFoldableWithIndex4<F, Ix> : I extends Foldable2v4<F> ? PipeableFoldable4<F> : {}) & (I extends Alt4<F> ? PipeableAlt4<F> : {}) & (I extends FilterableWithIndex4<F, infer Ix> ? PipeableFilterableWithIndex4<F, Ix> : I extends Filterable4<F> ? PipeableFilterable4<F> : I extends Compactable4<F> ? PipeableCompactable4<F> : {}) & (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) & (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {});
+} & I): (I extends Chain4<F> ? PipeableChain4<F> : I extends Apply4<F> ? PipeableApply4<F> : I extends Functor4<F> ? PipeableFunctor4<F> : {}) & (I extends Contravariant4<F> ? PipeableContravariant4<F> : {}) & (I extends FunctorWithIndex4<F, infer Ix> ? PipeableFunctorWithIndex4<F, Ix> : {}) & (I extends Bifunctor4<F> ? PipeableBifunctor4<F> : {}) & (I extends Extend4<F> ? PipeableExtend4<F> : {}) & (I extends FoldableWithIndex4<F, infer Ix> ? PipeableFoldableWithIndex4<F, Ix> : I extends Foldable2v4<F> ? PipeableFoldable4<F> : {}) & (I extends Alt4<F> ? PipeableAlt4<F> : {}) & (I extends FilterableWithIndex4<F, infer Ix> ? PipeableFilterableWithIndex4<F, Ix> : I extends Filterable4<F> ? PipeableFilterable4<F> : I extends Compactable4<F> ? PipeableCompactable4<F> : {}) & (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) & (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) & (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {});
 export declare function pipeable<F extends URIS3, I>(I: {
     URI: F;
-} & I): (I extends Chain3<F> ? PipeableChain3<F> : I extends Apply3<F> ? PipeableApply3<F> : I extends Functor3<F> ? PipeableFunctor3<F> : {}) & (I extends Contravariant3<F> ? PipeableContravariant3<F> : {}) & (I extends FunctorWithIndex3<F, infer Ix> ? PipeableFunctorWithIndex3<F, Ix> : {}) & (I extends Bifunctor3<F> ? PipeableBifunctor3<F> : {}) & (I extends Extend3<F> ? PipeableExtend3<F> : {}) & (I extends FoldableWithIndex3<F, infer Ix> ? PipeableFoldableWithIndex3<F, Ix> : I extends Foldable2v3<F> ? PipeableFoldable3<F> : {}) & (I extends Alt3<F> ? PipeableAlt3<F> : {}) & (I extends FilterableWithIndex3<F, infer Ix> ? PipeableFilterableWithIndex3<F, Ix> : I extends Filterable3<F> ? PipeableFilterable3<F> : I extends Compactable3<F> ? PipeableCompactable3<F> : {}) & (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) & (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {});
+} & I): (I extends Chain3<F> ? PipeableChain3<F> : I extends Apply3<F> ? PipeableApply3<F> : I extends Functor3<F> ? PipeableFunctor3<F> : {}) & (I extends Contravariant3<F> ? PipeableContravariant3<F> : {}) & (I extends FunctorWithIndex3<F, infer Ix> ? PipeableFunctorWithIndex3<F, Ix> : {}) & (I extends Bifunctor3<F> ? PipeableBifunctor3<F> : {}) & (I extends Extend3<F> ? PipeableExtend3<F> : {}) & (I extends FoldableWithIndex3<F, infer Ix> ? PipeableFoldableWithIndex3<F, Ix> : I extends Foldable2v3<F> ? PipeableFoldable3<F> : {}) & (I extends Alt3<F> ? PipeableAlt3<F> : {}) & (I extends FilterableWithIndex3<F, infer Ix> ? PipeableFilterableWithIndex3<F, Ix> : I extends Filterable3<F> ? PipeableFilterable3<F> : I extends Compactable3<F> ? PipeableCompactable3<F> : {}) & (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) & (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) & (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {});
 export declare function pipeable<F extends URIS2, I, L>(I: {
     URI: F;
     _L: L;
-} & I): (I extends Chain2C<F, L> ? PipeableChain2C<F, L> : I extends Apply2C<F, L> ? PipeableApply2C<F, L> : I extends Functor2C<F, L> ? PipeableFunctor2C<F, L> : {}) & (I extends Contravariant2C<F, L> ? PipeableContravariant2C<F, L> : {}) & (I extends FunctorWithIndex2C<F, infer Ix, L> ? PipeableFunctorWithIndex2C<F, Ix, L> : {}) & (I extends Extend2C<F, L> ? PipeableExtend2C<F, L> : {}) & (I extends FoldableWithIndex2C<F, infer Ix, L> ? PipeableFoldableWithIndex2C<F, Ix, L> : I extends Foldable2v2C<F, L> ? PipeableFoldable2C<F, L> : {}) & (I extends Alt2C<F, L> ? PipeableAlt2C<F, L> : {}) & (I extends FilterableWithIndex2C<F, infer Ix, L> ? PipeableFilterableWithIndex2C<F, Ix, L> : I extends Filterable2C<F, L> ? PipeableFilterable2C<F, L> : I extends Compactable2C<F, L> ? PipeableCompactable2C<F, L> : {}) & (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) & (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {});
+} & I): (I extends Chain2C<F, L> ? PipeableChain2C<F, L> : I extends Apply2C<F, L> ? PipeableApply2C<F, L> : I extends Functor2C<F, L> ? PipeableFunctor2C<F, L> : {}) & (I extends Contravariant2C<F, L> ? PipeableContravariant2C<F, L> : {}) & (I extends FunctorWithIndex2C<F, infer Ix, L> ? PipeableFunctorWithIndex2C<F, Ix, L> : {}) & (I extends Extend2C<F, L> ? PipeableExtend2C<F, L> : {}) & (I extends FoldableWithIndex2C<F, infer Ix, L> ? PipeableFoldableWithIndex2C<F, Ix, L> : I extends Foldable2v2C<F, L> ? PipeableFoldable2C<F, L> : {}) & (I extends Alt2C<F, L> ? PipeableAlt2C<F, L> : {}) & (I extends FilterableWithIndex2C<F, infer Ix, L> ? PipeableFilterableWithIndex2C<F, Ix, L> : I extends Filterable2C<F, L> ? PipeableFilterable2C<F, L> : I extends Compactable2C<F, L> ? PipeableCompactable2C<F, L> : {}) & (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) & (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {}) & (I extends MonadThrow2C<F, L> ? PipeableMonadThrow2C<F, L> : {});
 export declare function pipeable<F extends URIS2, I>(I: {
     URI: F;
-} & I): (I extends Chain2<F> ? PipeableChain2<F> : I extends Apply2<F> ? PipeableApply2<F> : I extends Functor2<F> ? PipeableFunctor2<F> : {}) & (I extends Contravariant2<F> ? PipeableContravariant2<F> : {}) & (I extends FunctorWithIndex2<F, infer Ix> ? PipeableFunctorWithIndex2<F, Ix> : {}) & (I extends Bifunctor2<F> ? PipeableBifunctor2<F> : {}) & (I extends Extend2<F> ? PipeableExtend2<F> : {}) & (I extends FoldableWithIndex2<F, infer Ix> ? PipeableFoldableWithIndex2<F, Ix> : I extends Foldable2v2<F> ? PipeableFoldable2<F> : {}) & (I extends Alt2<F> ? PipeableAlt2<F> : {}) & (I extends FilterableWithIndex2<F, infer Ix> ? PipeableFilterableWithIndex2<F, Ix> : I extends Filterable2<F> ? PipeableFilterable2<F> : I extends Compactable2<F> ? PipeableCompactable2<F> : {}) & (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) & (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {});
+} & I): (I extends Chain2<F> ? PipeableChain2<F> : I extends Apply2<F> ? PipeableApply2<F> : I extends Functor2<F> ? PipeableFunctor2<F> : {}) & (I extends Contravariant2<F> ? PipeableContravariant2<F> : {}) & (I extends FunctorWithIndex2<F, infer Ix> ? PipeableFunctorWithIndex2<F, Ix> : {}) & (I extends Bifunctor2<F> ? PipeableBifunctor2<F> : {}) & (I extends Extend2<F> ? PipeableExtend2<F> : {}) & (I extends FoldableWithIndex2<F, infer Ix> ? PipeableFoldableWithIndex2<F, Ix> : I extends Foldable2v2<F> ? PipeableFoldable2<F> : {}) & (I extends Alt2<F> ? PipeableAlt2<F> : {}) & (I extends FilterableWithIndex2<F, infer Ix> ? PipeableFilterableWithIndex2<F, Ix> : I extends Filterable2<F> ? PipeableFilterable2<F> : I extends Compactable2<F> ? PipeableCompactable2<F> : {}) & (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) & (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) & (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {});
 export declare function pipeable<F extends URIS, I>(I: {
     URI: F;
-} & I): (I extends Chain1<F> ? PipeableChain1<F> : I extends Apply1<F> ? PipeableApply1<F> : I extends Functor1<F> ? PipeableFunctor1<F> : {}) & (I extends Contravariant1<F> ? PipeableContravariant1<F> : {}) & (I extends FunctorWithIndex1<F, infer Ix> ? PipeableFunctorWithIndex1<F, Ix> : {}) & (I extends Extend1<F> ? PipeableExtend1<F> : {}) & (I extends FoldableWithIndex1<F, infer Ix> ? PipeableFoldableWithIndex1<F, Ix> : I extends Foldable2v1<F> ? PipeableFoldable1<F> : {}) & (I extends Alt1<F> ? PipeableAlt1<F> : {}) & (I extends FilterableWithIndex1<F, infer Ix> ? PipeableFilterableWithIndex1<F, Ix> : I extends Filterable1<F> ? PipeableFilterable1<F> : I extends Compactable1<F> ? PipeableCompactable1<F> : {});
+} & I): (I extends Chain1<F> ? PipeableChain1<F> : I extends Apply1<F> ? PipeableApply1<F> : I extends Functor1<F> ? PipeableFunctor1<F> : {}) & (I extends Contravariant1<F> ? PipeableContravariant1<F> : {}) & (I extends FunctorWithIndex1<F, infer Ix> ? PipeableFunctorWithIndex1<F, Ix> : {}) & (I extends Extend1<F> ? PipeableExtend1<F> : {}) & (I extends FoldableWithIndex1<F, infer Ix> ? PipeableFoldableWithIndex1<F, Ix> : I extends Foldable2v1<F> ? PipeableFoldable1<F> : {}) & (I extends Alt1<F> ? PipeableAlt1<F> : {}) & (I extends FilterableWithIndex1<F, infer Ix> ? PipeableFilterableWithIndex1<F, Ix> : I extends Filterable1<F> ? PipeableFilterable1<F> : I extends Compactable1<F> ? PipeableCompactable1<F> : {}) & (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {});
 export declare function pipeable<F, I>(I: {
     URI: F;
-} & I): (I extends Chain<F> ? PipeableChain<F> : I extends Apply<F> ? PipeableApply<F> : I extends Functor<F> ? PipeableFunctor<F> : {}) & (I extends Contravariant<F> ? PipeableContravariant<F> : {}) & (I extends FunctorWithIndex<F, infer Ix> ? PipeableFunctorWithIndex<F, Ix> : {}) & (I extends Bifunctor<F> ? PipeableBifunctor<F> : {}) & (I extends Extend<F> ? PipeableExtend<F> : {}) & (I extends FoldableWithIndex<F, infer Ix> ? PipeableFoldableWithIndex<F, Ix> : I extends Foldable2v<F> ? PipeableFoldable<F> : {}) & (I extends Alt<F> ? PipeableAlt<F> : {}) & (I extends FilterableWithIndex<F, infer Ix> ? PipeableFilterableWithIndex<F, Ix> : I extends Filterable<F> ? PipeableFilterable<F> : I extends Compactable<F> ? PipeableCompactable<F> : {}) & (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) & (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {});
+} & I): (I extends Chain<F> ? PipeableChain<F> : I extends Apply<F> ? PipeableApply<F> : I extends Functor<F> ? PipeableFunctor<F> : {}) & (I extends Contravariant<F> ? PipeableContravariant<F> : {}) & (I extends FunctorWithIndex<F, infer Ix> ? PipeableFunctorWithIndex<F, Ix> : {}) & (I extends Bifunctor<F> ? PipeableBifunctor<F> : {}) & (I extends Extend<F> ? PipeableExtend<F> : {}) & (I extends FoldableWithIndex<F, infer Ix> ? PipeableFoldableWithIndex<F, Ix> : I extends Foldable2v<F> ? PipeableFoldable<F> : {}) & (I extends Alt<F> ? PipeableAlt<F> : {}) & (I extends FilterableWithIndex<F, infer Ix> ? PipeableFilterableWithIndex<F, Ix> : I extends Filterable<F> ? PipeableFilterable<F> : I extends Compactable<F> ? PipeableCompactable<F> : {}) & (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) & (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) & (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {});
