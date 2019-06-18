@@ -1,6 +1,6 @@
 ---
 title: Option.ts
-nav_order: 55
+nav_order: 56
 parent: Modules
 ---
 
@@ -100,7 +100,6 @@ option.chain(some(0), inverse) // none
 - [elem (function)](#elem-function)
 - [exists (function)](#exists-function)
 - [fold (function)](#fold-function)
-- [fromEither (function)](#fromeither-function)
 - [fromNullable (function)](#fromnullable-function)
 - [fromPredicate (function)](#frompredicate-function)
 - [getApplyMonoid (function)](#getapplymonoid-function)
@@ -197,13 +196,13 @@ Added in v2.0.0
 ```ts
 export const option: Monad1<URI> &
   Foldable1<URI> &
-  Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = ...
+  Witherable1<URI> &
+  MonadThrow1<URI> = ...
 ```
 
 Added in v2.0.0
@@ -233,17 +232,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R { ... }
-```
-
-Added in v2.0.0
-
-# fromEither (function)
-
-**Signature**
-
-```ts
-export function fromEither<L, A>(ma: Either<L, A>): Option<A> { ... }
+export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B { ... }
 ```
 
 Added in v2.0.0
@@ -428,7 +417,7 @@ Returns an `L` value if possible
 **Signature**
 
 ```ts
-export function getLeft<L, A>(ma: Either<L, A>): Option<L> { ... }
+export function getLeft<E, A>(ma: Either<E, A>): Option<E> { ... }
 ```
 
 Added in v2.0.0
@@ -537,7 +526,7 @@ Returns an `A` value if possible
 **Signature**
 
 ```ts
-export function getRight<L, A>(ma: Either<L, A>): Option<A> { ... }
+export function getRight<E, A>(ma: Either<E, A>): Option<A> { ... }
 ```
 
 Added in v2.0.0

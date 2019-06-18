@@ -59,6 +59,7 @@ parent: Modules
 - [monad (export)](#monad-export)
 - [monadIO (export)](#monadio-export)
 - [monadTask (export)](#monadtask-export)
+- [monadThrow (export)](#monadthrow-export)
 - [monoid (export)](#monoid-export)
 - [nonEmptyArray (export)](#nonemptyarray-export)
 - [option (export)](#option-export)
@@ -66,7 +67,6 @@ parent: Modules
 - [ord (export)](#ord-export)
 - [ordering (export)](#ordering-export)
 - [pipeable (export)](#pipeable-export)
-- [plus (export)](#plus-export)
 - [profunctor (export)](#profunctor-export)
 - [random (export)](#random-export)
 - [reader (export)](#reader-export)
@@ -508,6 +508,14 @@ export { monadIO }
 export { monadTask }
 ```
 
+# monadThrow (export)
+
+**Signature**
+
+```ts
+export { monadThrow }
+```
+
 # monoid (export)
 
 **Signature**
@@ -562,14 +570,6 @@ export { ordering }
 
 ```ts
 export { pipeable }
-```
-
-# plus (export)
-
-**Signature**
-
-```ts
-export { plus }
 ```
 
 # profunctor (export)

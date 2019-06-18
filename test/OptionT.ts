@@ -52,12 +52,6 @@ describe('OptionT', () => {
     })
   })
 
-  it('fromOption', () => {
-    return T.fromOption(O.some(1))().then(o => {
-      assert.deepStrictEqual(o, O.some(1))
-    })
-  })
-
   it('none', () => {
     return T.none()().then(o => {
       assert.deepStrictEqual(o, O.none)

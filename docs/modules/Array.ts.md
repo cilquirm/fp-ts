@@ -107,7 +107,6 @@ export const array: Monad1<URI> &
   Unfoldable1<URI> &
   TraversableWithIndex1<URI, number> &
   Alternative1<URI> &
-  Plus1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   FilterableWithIndex1<URI, number> &
@@ -844,7 +843,7 @@ Extracts from an array of `Either` all the `Left` elements. All the `Left` eleme
 **Signature**
 
 ```ts
-export function lefts<L, A>(as: Array<Either<L, A>>): Array<L> { ... }
+export function lefts<E, A>(as: Array<Either<E, A>>): Array<E> { ... }
 ```
 
 **Example**
@@ -1002,7 +1001,7 @@ Extracts from an array of `Either` all the `Right` elements. All the `Right` ele
 **Signature**
 
 ```ts
-export function rights<L, A>(as: Array<Either<L, A>>): Array<A> { ... }
+export function rights<E, A>(as: Array<Either<E, A>>): Array<A> { ... }
 ```
 
 **Example**
@@ -1130,14 +1129,14 @@ export function sortBy<A>(ords: Array<Ord<A>>): (as: Array<A>) => Array<A> { ...
 
 ```ts
 import { sortBy } from 'fp-ts/lib/Array'
-import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+import { ord, ordString, ordNumber } from 'fp-ts/lib/Ord'
 
 interface Person {
   name: string
   age: number
 }
-const byName = contramap(ordString, (p: Person) => p.name)
-const byAge = contramap(ordNumber, (p: Person) => p.age)
+const byName = ord.contramap(ordString, (p: Person) => p.name)
+const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
 
 const sortByNameByAge = sortBy([byName, byAge])
 

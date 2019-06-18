@@ -93,15 +93,15 @@ import { HKT } from './HKT'
 import { Monad1 } from './Monad'
 import { Monoid } from './Monoid'
 import { Ord } from './Ord'
-import { Plus1 } from './Plus'
 import { Semigroup } from './Semigroup'
 import { Show } from './Show'
 import { Traversable1 } from './Traversable'
 import { Witherable1 } from './Witherable'
 import { pipeable } from './pipeable'
+import { MonadThrow1 } from './MonadThrow'
 
 declare module './HKT' {
-  interface URI2HKT<A> {
+  interface URItoKind<A> {
     Option: Option<A>
   }
 }
@@ -169,7 +169,7 @@ export function isNone<A>(fa: Option<A>): fa is None {
 /**
  * @since 2.0.0
  */
-export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R {
+export function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B {
   return ma => (isNone(ma) ? onNone() : onSome(ma.value))
 }
 
@@ -188,13 +188,6 @@ export function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>
  */
 export function fromNullable<A>(a: A | null | undefined): Option<A> {
   return a == null ? none : some(a)
-}
-
-/**
- * @since 2.0.0
- */
-export function fromEither<L, A>(ma: Either<L, A>): Option<A> {
-  return ma._tag === 'Left' ? none : some(ma.right)
 }
 
 /**
@@ -279,7 +272,7 @@ export function tryCatch<A>(f: Lazy<A>): Option<A> {
  *
  * @since 2.0.0
  */
-export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
+export function getLeft<E, A>(ma: Either<E, A>): Option<E> {
   return ma._tag === 'Right' ? none : some(ma.left)
 }
 
@@ -288,7 +281,7 @@ export function getLeft<L, A>(ma: Either<L, A>): Option<L> {
  *
  * @since 2.0.0
  */
-export function getRight<L, A>(ma: Either<L, A>): Option<A> {
+export function getRight<E, A>(ma: Either<E, A>): Option<A> {
   return ma._tag === 'Left' ? none : some(ma.right)
 }
 
@@ -509,13 +502,13 @@ const identity = <A>(a: A): A => a
  */
 export const option: Monad1<URI> &
   Foldable1<URI> &
-  Plus1<URI> &
   Traversable1<URI> &
   Alternative1<URI> &
   Extend1<URI> &
   Compactable1<URI> &
   Filterable1<URI> &
-  Witherable1<URI> = {
+  Witherable1<URI> &
+  MonadThrow1<URI> = {
   URI,
   map: (ma, f) => (isNone(ma) ? none : some(f(ma.value))),
   of: some,
@@ -534,7 +527,7 @@ export const option: Monad1<URI> &
   alt: (ma, f) => (isNone(ma) ? f() : ma),
   extend: (wa, f) => (isNone(wa) ? none : some(f(wa))),
   compact: ma => option.chain(ma, identity),
-  separate: <RL, RR>(ma: Option<Either<RL, RR>>): Separated<Option<RL>, Option<RR>> => {
+  separate: <A, B>(ma: Option<Either<A, B>>): Separated<Option<A>, Option<B>> => {
     const o = option.map(ma, e => ({
       left: getLeft(e),
       right: getRight(e)
@@ -554,10 +547,10 @@ export const option: Monad1<URI> &
   partitionMap: (fa, f) => option.separate(option.map(fa, f)),
   wither: <F>(F: Applicative<F>) => <A, B>(fa: Option<A>, f: (a: A) => HKT<F, Option<B>>): HKT<F, Option<B>> =>
     isNone(fa) ? F.of(none) : f(fa.value),
-  wilt: <F>(F: Applicative<F>) => <RL, RR, A>(
+  wilt: <F>(F: Applicative<F>) => <A, B, C>(
     fa: Option<A>,
-    f: (a: A) => HKT<F, Either<RL, RR>>
-  ): HKT<F, Separated<Option<RL>, Option<RR>>> => {
+    f: (a: A) => HKT<F, Either<B, C>>
+  ): HKT<F, Separated<Option<B>, Option<C>>> => {
     const o = option.map(fa, a =>
       F.map(f(a), e => ({
         left: getLeft(e),
@@ -570,7 +563,8 @@ export const option: Monad1<URI> &
           right: none
         })
       : o.value
-  }
+  },
+  throwError: () => none
 }
 
 const {
@@ -592,7 +586,8 @@ const {
   reduce,
   reduceRight,
   compact,
-  separate
+  separate,
+  fromEither
 } = pipeable(option)
 
 export {
@@ -614,5 +609,6 @@ export {
   reduce,
   reduceRight,
   compact,
-  separate
+  separate,
+  fromEither
 }

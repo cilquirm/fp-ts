@@ -6,14 +6,13 @@ import { Alt2, Alt2C } from './Alt'
 import { Bifunctor2 } from './Bifunctor'
 import * as E from './Either'
 import { getEitherM } from './EitherT'
-import { Lazy, Predicate, Refinement } from './function'
+import { Lazy } from './function'
 import { IO } from './IO'
 import { IOEither } from './IOEither'
 import { Monad2, Monad2C } from './Monad'
-import { MonadIO2 } from './MonadIO'
 import { MonadTask2 } from './MonadTask'
+import { MonadThrow2 } from './MonadThrow'
 import { Monoid } from './Monoid'
-import { Option } from './Option'
 import { pipeable } from './pipeable'
 import { Semigroup } from './Semigroup'
 import { getSemigroup as getTaskSemigroup, Task, task } from './Task'
@@ -24,8 +23,8 @@ import Either = E.Either
 const T = getEitherM(task)
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
-    TaskEither: TaskEither<L, A>
+  interface URItoKind2<E, A> {
+    TaskEither: TaskEither<E, A>
   }
 }
 
@@ -81,40 +80,15 @@ export const leftTask: <E>(me: Task<E>) => TaskEither<E, never> = T.leftM
 /**
  * @since 2.0.0
  */
-export const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A> = task.of
-
-/**
- * @since 2.0.0
- */
-export function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => TaskEither<E, A> {
-  return ma => T.fromOption(ma, onNone)
-}
-
-/**
- * @since 2.0.0
- */
 export const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A> = task.fromIO
 
 /**
  * @since 2.0.0
  */
-export function fromPredicate<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (a: A) => TaskEither<E, B>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>
-export function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A> {
-  const f = E.fromPredicate(predicate, onFalse)
-  return a => fromEither(f(a))
-}
-
-/**
- * @since 2.0.0
- */
-export function fold<E, A, R>(
-  onLeft: (e: E) => Task<R>,
-  onRight: (a: A) => Task<R>
-): (ma: TaskEither<E, A>) => Task<R> {
+export function fold<E, A, B>(
+  onLeft: (e: E) => Task<B>,
+  onRight: (a: A) => Task<B>
+): (ma: TaskEither<E, A>) => Task<B> {
   return ma => T.fold(ma, onLeft, onRight)
 }
 
@@ -130,24 +104,6 @@ export function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E, A>) =>
  */
 export function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A> {
   return ma => T.orElse(ma, f)
-}
-
-/**
- * @since 2.0.0
- */
-export function filterOrElse<E, A, B extends A>(
-  refinement: Refinement<A, B>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, B>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A>
-export function filterOrElse<E, A>(
-  predicate: Predicate<A>,
-  onFalse: (a: A) => E
-): (ma: TaskEither<E, A>) => TaskEither<E, A> {
-  return ma => task.map(ma, E.filterOrElse(predicate, onFalse))
 }
 
 /**
@@ -267,7 +223,7 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
   const T = getValidationM(S, task)
   return {
     URI,
-    _L: undefined as any,
+    _E: undefined as any,
     ...T
   }
 }
@@ -275,17 +231,18 @@ export function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & Alt2C<U
 /**
  * @since 2.0.0
  */
-export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI> = {
+export const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI> = {
   URI,
   bimap: T.bimap,
   mapLeft: T.mapLeft,
   map: T.map,
-  of: right,
+  of: T.of,
   ap: T.ap,
   chain: T.chain,
   alt: T.alt,
   fromIO: rightIO,
-  fromTask: rightTask
+  fromTask: rightTask,
+  throwError: left
 }
 
 /**
@@ -298,6 +255,36 @@ export const taskEitherSeq: typeof taskEither = {
   ap: (mab, ma) => T.chain(mab, f => T.map(ma, f))
 }
 
-const { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft } = pipeable(taskEither)
+const {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+} = pipeable(taskEither)
 
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft }
+export {
+  alt,
+  ap,
+  apFirst,
+  apSecond,
+  bimap,
+  chain,
+  chainFirst,
+  flatten,
+  map,
+  mapLeft,
+  fromEither,
+  fromOption,
+  fromPredicate,
+  filterOrElse
+}

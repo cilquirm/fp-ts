@@ -23,7 +23,7 @@ parent: Modules
 **Signature**
 
 ```ts
-export interface ValidationM<M, E> extends ApplicativeComposition02C<M, URI, E> {
+export interface ValidationM<M, E> extends ApplicativeCompositionHKT2C<M, URI, E> {
   readonly chain: <A, B>(ma: ValidationT<M, E, A>, f: (a: A) => ValidationT<M, E, B>) => ValidationT<M, E, B>
   readonly alt: <A>(fx: ValidationT<M, E, A>, f: () => ValidationT<M, E, A>) => ValidationT<M, E, A>
 }
@@ -50,11 +50,11 @@ Added in v2.0.0
 
 ```ts
 export interface ValidationM2<M extends URIS2, E> extends ApplicativeComposition22C<M, URI, E> {
-  readonly chain: <L, A, B>(
-    ma: ValidationT2<M, L, E, A>,
-    f: (a: A) => ValidationT2<M, L, E, B>
-  ) => ValidationT2<M, L, E, B>
-  readonly alt: <L, A>(fx: ValidationT2<M, L, E, A>, f: () => ValidationT2<M, L, E, A>) => ValidationT2<M, L, E, A>
+  readonly chain: <R, A, B>(
+    ma: ValidationT2<M, R, E, A>,
+    f: (a: A) => ValidationT2<M, R, E, B>
+  ) => ValidationT2<M, R, E, B>
+  readonly alt: <R, A>(fx: ValidationT2<M, R, E, A>, f: () => ValidationT2<M, R, E, A>) => ValidationT2<M, R, E, A>
 }
 ```
 
@@ -75,7 +75,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type ValidationT1<M extends URIS, E, A> = Type<M, Either<E, A>>
+export type ValidationT1<M extends URIS, E, A> = Kind<M, Either<E, A>>
 ```
 
 Added in v2.0.0
@@ -85,7 +85,7 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export type ValidationT2<M extends URIS2, L, E, A> = Type2<M, L, Either<E, A>>
+export type ValidationT2<M extends URIS2, R, E, A> = Kind2<M, R, Either<E, A>>
 ```
 
 Added in v2.0.0

@@ -23,7 +23,7 @@ parent: Modules
 ```ts
 export interface Semigroupoid<F> {
   readonly URI: F
-  readonly compose: <L, A, B>(ab: HKT2<F, A, B>, la: HKT2<F, L, A>) => HKT2<F, L, B>
+  readonly compose: <E, A, B>(ab: HKT2<F, A, B>, la: HKT2<F, E, A>) => HKT2<F, E, B>
 }
 ```
 
@@ -36,7 +36,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid2<F extends URIS2> {
   readonly URI: F
-  readonly compose: <L, A, B>(ab: Type2<F, A, B>, la: Type2<F, L, A>) => Type2<F, L, B>
+  readonly compose: <E, A, B>(ab: Kind2<F, A, B>, la: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
@@ -47,9 +47,9 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Semigroupoid2C<F extends URIS2, L> {
+export interface Semigroupoid2C<F extends URIS2, E> {
   readonly URI: F
-  readonly compose: <A, B>(ab: Type2<F, A, B>, la: Type2<F, L, A>) => Type2<F, L, B>
+  readonly compose: <A, B>(ab: Kind2<F, A, B>, la: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 ```
 
@@ -62,7 +62,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid3<F extends URIS3> {
   readonly URI: F
-  readonly compose: <U, L, A, B>(ab: Type3<F, U, A, B>, la: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly compose: <R, E, A, B>(ab: Kind3<F, R, A, B>, la: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -75,7 +75,7 @@ Added in v2.0.0
 ```ts
 export interface Semigroupoid4<F extends URIS4> {
   readonly URI: F
-  readonly compose: <X, U, L, A, B>(ab: Type4<F, X, U, A, B>, la: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly compose: <S, R, E, A, B>(ab: Kind4<F, S, R, A, B>, la: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 ```
 

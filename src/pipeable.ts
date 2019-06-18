@@ -28,9 +28,9 @@ import {
   FilterableWithIndex2,
   FilterableWithIndex2C,
   FilterableWithIndex3,
+  FilterableWithIndex4,
   PredicateWithIndex,
-  RefinementWithIndex,
-  FilterableWithIndex4
+  RefinementWithIndex
 } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable2C, Foldable3, Foldable4 } from './Foldable'
 import {
@@ -51,7 +51,8 @@ import {
   FunctorWithIndex3,
   FunctorWithIndex4
 } from './FunctorWithIndex'
-import { HKT, HKT2, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { HKT, HKT2, Kind, Kind2, Kind3, Kind4, URIS, URIS2, URIS3, URIS4 } from './HKT'
+import { MonadThrow, MonadThrow1, MonadThrow2, MonadThrow2C, MonadThrow3, MonadThrow4 } from './MonadThrow'
 import { Monoid } from './Monoid'
 import { Option } from './Option'
 import { Profunctor, Profunctor2, Profunctor2C, Profunctor3, Profunctor4 } from './Profunctor'
@@ -156,23 +157,23 @@ export interface PipeableFunctor<F> {
 }
 
 export interface PipeableFunctor1<F extends URIS> {
-  readonly map: <A, B>(f: (a: A) => B) => (fa: Type<F, A>) => Type<F, B>
+  readonly map: <A, B>(f: (a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 
 export interface PipeableFunctor2<F extends URIS2> {
-  readonly map: <A, B>(f: (a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly map: <A, B>(f: (a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
-export interface PipeableFunctor2C<F extends URIS2, L> {
-  readonly map: <A, B>(f: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+export interface PipeableFunctor2C<F extends URIS2, E> {
+  readonly map: <A, B>(f: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 export interface PipeableFunctor3<F extends URIS3> {
-  readonly map: <A, B>(f: (a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly map: <A, B>(f: (a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 export interface PipeableFunctor4<F extends URIS4> {
-  readonly map: <A, B>(f: (a: A) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
 export interface PipeableContravariant<F> {
@@ -180,23 +181,23 @@ export interface PipeableContravariant<F> {
 }
 
 export interface PipeableContravariant1<F extends URIS> {
-  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type<F, A>) => Type<F, B>
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Kind<F, A>) => Kind<F, B>
 }
 
 export interface PipeableContravariant2<F extends URIS2> {
-  readonly contramap: <A, B>(f: (b: B) => A) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly contramap: <A, B>(f: (b: B) => A) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
-export interface PipeableContravariant2C<F extends URIS2, L> {
-  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+export interface PipeableContravariant2C<F extends URIS2, E> {
+  readonly contramap: <A, B>(f: (b: B) => A) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 export interface PipeableContravariant3<F extends URIS3> {
-  readonly contramap: <A, B>(f: (b: B) => A) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly contramap: <A, B>(f: (b: B) => A) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 export interface PipeableContravariant4<F extends URIS4> {
-  readonly contramap: <A, B>(f: (b: B) => A) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly contramap: <A, B>(f: (b: B) => A) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
 export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
@@ -204,23 +205,23 @@ export interface PipeableFunctorWithIndex<F, I> extends PipeableFunctor<F> {
 }
 
 export interface PipeableFunctorWithIndex1<F extends URIS, I> extends PipeableFunctor1<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Type<F, A>) => Type<F, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind<F, A>) => Kind<F, B>
 }
 
 export interface PipeableFunctorWithIndex2<F extends URIS2, I> extends PipeableFunctor2<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
-export interface PipeableFunctorWithIndex2C<F extends URIS2, I, L> extends PipeableFunctor2C<F, L> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+export interface PipeableFunctorWithIndex2C<F extends URIS2, I, E> extends PipeableFunctor2C<F, E> {
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
 }
 
 export interface PipeableFunctorWithIndex3<F extends URIS3, I> extends PipeableFunctor3<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 export interface PipeableFunctorWithIndex4<F extends URIS4, I> extends PipeableFunctor4<F> {
-  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly mapWithIndex: <A, B>(f: (i: I, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
 export interface PipeableApply<F> extends PipeableFunctor<F> {
@@ -230,35 +231,35 @@ export interface PipeableApply<F> extends PipeableFunctor<F> {
 }
 
 export interface PipeableApply1<F extends URIS> extends PipeableFunctor1<F> {
-  readonly ap: <A>(fa: Type<F, A>) => <B>(fab: Type<F, (a: A) => B>) => Type<F, B>
-  readonly apFirst: <B>(fb: Type<F, B>) => <A>(fa: Type<F, A>) => Type<F, A>
-  readonly apSecond: <B>(fb: Type<F, B>) => <A>(fa: Type<F, A>) => Type<F, B>
+  readonly ap: <A>(fa: Kind<F, A>) => <B>(fab: Kind<F, (a: A) => B>) => Kind<F, B>
+  readonly apFirst: <B>(fb: Kind<F, B>) => <A>(fa: Kind<F, A>) => Kind<F, A>
+  readonly apSecond: <B>(fb: Kind<F, B>) => <A>(fa: Kind<F, A>) => Kind<F, B>
 }
 
 export interface PipeableApply2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly ap: <L, A>(fa: Type2<F, L, A>) => <B>(fab: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-  readonly apFirst: <L, B>(fb: Type2<F, L, B>) => <A>(fa: Type2<F, L, A>) => Type2<F, L, A>
-  readonly apSecond: <L, B>(fb: Type2<F, L, B>) => <A>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly ap: <E, A>(fa: Kind2<F, E, A>) => <B>(fab: Kind2<F, E, (a: A) => B>) => Kind2<F, E, B>
+  readonly apFirst: <E, B>(fb: Kind2<F, E, B>) => <A>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly apSecond: <e, B>(fb: Kind2<F, e, B>) => <A>(fa: Kind2<F, e, A>) => Kind2<F, e, B>
 }
 
-export interface PipeableApply2C<F extends URIS2, L> extends PipeableFunctor2C<F, L> {
-  readonly ap: <A>(fa: Type2<F, L, A>) => <B>(fab: Type2<F, L, (a: A) => B>) => Type2<F, L, B>
-  readonly apFirst: <A>(fb: Type2<F, L, A>) => <B>(fb: Type2<F, L, B>) => Type2<F, L, A>
-  readonly apSecond: <A>(fb: Type2<F, L, A>) => <B>(fb: Type2<F, L, B>) => Type2<F, L, B>
+export interface PipeableApply2C<F extends URIS2, e> extends PipeableFunctor2C<F, e> {
+  readonly ap: <A>(fa: Kind2<F, e, A>) => <B>(fab: Kind2<F, e, (a: A) => B>) => Kind2<F, e, B>
+  readonly apFirst: <A>(fb: Kind2<F, e, A>) => <B>(fb: Kind2<F, e, B>) => Kind2<F, e, A>
+  readonly apSecond: <A>(fb: Kind2<F, e, A>) => <B>(fb: Kind2<F, e, B>) => Kind2<F, e, B>
 }
 
 export interface PipeableApply3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly ap: <U, L, A>(fa: Type3<F, U, L, A>) => <B>(fab: Type3<F, U, L, (a: A) => B>) => Type3<F, U, L, B>
-  readonly apFirst: <U, L, B>(fb: Type3<F, U, L, B>) => <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
-  readonly apSecond: <U, L, B>(fb: Type3<F, U, L, B>) => <A>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
+  readonly ap: <R, E, A>(fa: Kind3<F, R, E, A>) => <B>(fab: Kind3<F, R, E, (a: A) => B>) => Kind3<F, R, E, B>
+  readonly apFirst: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly apSecond: <R, E, B>(fb: Kind3<F, R, E, B>) => <A>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
 }
 
 export interface PipeableApply4<F extends URIS4> extends PipeableFunctor4<F> {
-  readonly ap: <X, U, L, A>(
-    fa: Type4<F, X, U, L, A>
-  ) => <B>(fab: Type4<F, X, U, L, (a: A) => B>) => Type4<F, X, U, L, B>
-  readonly apFirst: <X, U, L, B>(fb: Type4<F, X, U, L, B>) => <A>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
-  readonly apSecond: <X, U, L, B>(fb: Type4<F, X, U, L, B>) => <A>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
+  readonly ap: <S, R, E, A>(
+    fa: Kind4<F, S, R, E, A>
+  ) => <B>(fab: Kind4<F, S, R, E, (a: A) => B>) => Kind4<F, S, R, E, B>
+  readonly apFirst: <S, R, E, B>(fb: Kind4<F, S, R, E, B>) => <A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  readonly apSecond: <S, R, E, B>(fb: Kind4<F, S, R, E, B>) => <A>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
 }
 
 export interface PipeableChain<F> extends PipeableApply<F> {
@@ -268,37 +269,37 @@ export interface PipeableChain<F> extends PipeableApply<F> {
 }
 
 export interface PipeableChain1<F extends URIS> extends PipeableApply1<F> {
-  readonly chain: <A, B>(f: (a: A) => Type<F, B>) => (ma: Type<F, A>) => Type<F, B>
-  readonly chainFirst: <A, B>(f: (a: A) => Type<F, B>) => (ma: Type<F, A>) => Type<F, A>
-  readonly flatten: <A>(mma: Type<F, Type<F, A>>) => Type<F, A>
+  readonly chain: <A, B>(f: (a: A) => Kind<F, B>) => (ma: Kind<F, A>) => Kind<F, B>
+  readonly chainFirst: <A, B>(f: (a: A) => Kind<F, B>) => (ma: Kind<F, A>) => Kind<F, A>
+  readonly flatten: <A>(mma: Kind<F, Kind<F, A>>) => Kind<F, A>
 }
 
 export interface PipeableChain2<F extends URIS2> extends PipeableApply2<F> {
-  readonly chain: <L, A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, B>
-  readonly chainFirst: <L, A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, A>
-  readonly flatten: <L, A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
+  readonly chain: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly chainFirst: <E, A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly flatten: <E, A>(mma: Kind2<F, E, Kind2<F, E, A>>) => Kind2<F, E, A>
 }
 
-export interface PipeableChain2C<F extends URIS2, L> extends PipeableApply2C<F, L> {
-  readonly chain: <A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, B>
-  readonly chainFirst: <A, B>(f: (a: A) => Type2<F, L, B>) => (ma: Type2<F, L, A>) => Type2<F, L, A>
-  readonly flatten: <A>(mma: Type2<F, L, Type2<F, L, A>>) => Type2<F, L, A>
+export interface PipeableChain2C<F extends URIS2, E> extends PipeableApply2C<F, E> {
+  readonly chain: <A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly chainFirst: <A, B>(f: (a: A) => Kind2<F, E, B>) => (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  readonly flatten: <A>(mma: Kind2<F, E, Kind2<F, E, A>>) => Kind2<F, E, A>
 }
 
 export interface PipeableChain3<F extends URIS3> extends PipeableApply3<F> {
-  readonly chain: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, B>
-  readonly chainFirst: <U, L, A, B>(f: (a: A) => Type3<F, U, L, B>) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, A>
-  readonly flatten: <U, L, A>(mma: Type3<F, U, L, Type3<F, U, L, A>>) => Type3<F, U, L, A>
+  readonly chain: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly chainFirst: <R, E, A, B>(f: (a: A) => Kind3<F, R, E, B>) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  readonly flatten: <R, E, A>(mma: Kind3<F, R, E, Kind3<F, R, E, A>>) => Kind3<F, R, E, A>
 }
 
 export interface PipeableChain4<F extends URIS4> extends PipeableApply4<F> {
-  readonly chain: <X, U, L, A, B>(
-    f: (a: A) => Type4<F, X, U, L, B>
-  ) => (ma: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
-  readonly chainFirst: <X, U, L, A, B>(
-    f: (a: A) => Type4<F, X, U, L, B>
-  ) => (ma: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
-  readonly flatten: <X, U, L, A>(mma: Type4<F, X, U, L, Type4<F, X, U, L, A>>) => Type4<F, X, U, L, A>
+  readonly chain: <S, R, E, A, B>(
+    f: (a: A) => Kind4<F, S, R, E, B>
+  ) => (ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  readonly chainFirst: <S, R, E, A, B>(
+    f: (a: A) => Kind4<F, S, R, E, B>
+  ) => (ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  readonly flatten: <S, R, E, A>(mma: Kind4<F, S, R, E, Kind4<F, S, R, E, A>>) => Kind4<F, S, R, E, A>
 }
 
 export interface PipeableExtend<F> extends PipeableFunctor<F> {
@@ -307,53 +308,53 @@ export interface PipeableExtend<F> extends PipeableFunctor<F> {
 }
 
 export interface PipeableExtend1<F extends URIS> extends PipeableFunctor1<F> {
-  readonly extend: <A, B>(f: (fa: Type<F, A>) => B) => (ma: Type<F, A>) => Type<F, B>
-  readonly duplicate: <A>(ma: Type<F, A>) => Type<F, Type<F, A>>
+  readonly extend: <A, B>(f: (fa: Kind<F, A>) => B) => (ma: Kind<F, A>) => Kind<F, B>
+  readonly duplicate: <A>(ma: Kind<F, A>) => Kind<F, Kind<F, A>>
 }
 
 export interface PipeableExtend2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly extend: <L, A, B>(f: (fa: Type2<F, L, A>) => B) => (ma: Type2<F, L, A>) => Type2<F, L, B>
-  readonly duplicate: <L, A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
+  readonly extend: <E, A, B>(f: (fa: Kind2<F, E, A>) => B) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly duplicate: <E, A>(ma: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
 }
 
-export interface PipeableExtend2C<F extends URIS2, L> extends PipeableFunctor2C<F, L> {
-  readonly extend: <A, B>(f: (fa: Type2<F, L, A>) => B) => (ma: Type2<F, L, A>) => Type2<F, L, B>
-  readonly duplicate: <A>(ma: Type2<F, L, A>) => Type2<F, L, Type2<F, L, A>>
+export interface PipeableExtend2C<F extends URIS2, E> extends PipeableFunctor2C<F, E> {
+  readonly extend: <A, B>(f: (fa: Kind2<F, E, A>) => B) => (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+  readonly duplicate: <A>(ma: Kind2<F, E, A>) => Kind2<F, E, Kind2<F, E, A>>
 }
 
 export interface PipeableExtend3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly extend: <U, L, A, B>(f: (fa: Type3<F, U, L, A>) => B) => (ma: Type3<F, U, L, A>) => Type3<F, U, L, B>
-  readonly duplicate: <U, L, A>(ma: Type3<F, U, L, A>) => Type3<F, U, L, Type3<F, U, L, A>>
+  readonly extend: <R, E, A, B>(f: (fa: Kind3<F, R, E, A>) => B) => (ma: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+  readonly duplicate: <R, E, A>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, Kind3<F, R, E, A>>
 }
 
 export interface PipeableExtend4<F extends URIS4> extends PipeableFunctor4<F> {
-  readonly extend: <X, U, L, A, B>(
-    f: (fa: Type4<F, X, U, L, A>) => B
-  ) => (ma: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
-  readonly duplicate: <X, U, L, A>(ma: Type4<F, X, U, L, A>) => Type4<F, X, U, L, Type4<F, X, U, L, A>>
+  readonly extend: <S, R, E, A, B>(
+    f: (fa: Kind4<F, S, R, E, A>) => B
+  ) => (ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+  readonly duplicate: <S, R, E, A>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, Kind4<F, S, R, E, A>>
 }
 
 export interface PipeableBifunctor<F> {
-  readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: HKT2<F, L, A>) => HKT2<F, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => (fa: HKT2<F, L, A>) => HKT2<F, M, A>
+  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: HKT2<F, E, A>) => HKT2<F, G, B>
+  readonly mapLeft: <E, G, A>(f: (e: E) => G) => (fa: HKT2<F, E, A>) => HKT2<F, G, A>
 }
 
 export interface PipeableBifunctor2<F extends URIS2> {
-  readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: Type2<F, L, A>) => Type2<F, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => (fa: Type2<F, L, A>) => Type2<F, M, A>
+  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Kind2<F, E, A>) => Kind2<F, G, B>
+  readonly mapLeft: <E, G, A>(f: (e: E) => G) => (fa: Kind2<F, E, A>) => Kind2<F, G, A>
 }
 
 export interface PipeableBifunctor3<F extends URIS3> {
-  readonly bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => <U>(fa: Type3<F, U, L, A>) => Type3<F, U, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => <U>(fa: Type3<F, U, L, A>) => Type3<F, U, M, A>
+  readonly bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, B>
+  readonly mapLeft: <E, G, A>(f: (e: E) => G) => <R>(fa: Kind3<F, R, E, A>) => Kind3<F, R, G, A>
 }
 
 export interface PipeableBifunctor4<F extends URIS4> {
-  readonly bimap: <L, A, M, B>(
-    f: (l: L) => M,
+  readonly bimap: <E, G, A, B>(
+    f: (e: E) => G,
     g: (a: A) => B
-  ) => <X, U>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, M, B>
-  readonly mapLeft: <L, A, M>(f: (l: L) => M) => <X, U>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, M, A>
+  ) => <S, R>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, B>
+  readonly mapLeft: <E, G, A>(f: (e: E) => G) => <S, R>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, G, A>
 }
 
 export interface PipeableFoldable<F> {
@@ -363,33 +364,33 @@ export interface PipeableFoldable<F> {
 }
 
 export interface PipeableFoldable1<F extends URIS> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Type<F, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Type<F, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Type<F, A>) => B
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Kind<F, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind<F, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Kind<F, A>) => B
 }
 
 export interface PipeableFoldable2<F extends URIS2> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: Type2<F, L, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: Type2<F, L, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: Type2<F, L, A>) => B
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
 }
 
-export interface PipeableFoldable2C<F extends URIS2, L> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Type2<F, L, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Type2<F, L, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Type2<F, L, A>) => B
+export interface PipeableFoldable2C<F extends URIS2, E> {
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Kind2<F, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
 }
 
 export interface PipeableFoldable3<F extends URIS3> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <U, L>(fa: Type3<F, U, L, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <U, L>(fa: Type3<F, U, L, A>) => B
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
 }
 
 export interface PipeableFoldable4<F extends URIS4> {
-  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => B
-  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <X, U, L>(fa: Type4<F, X, U, L, A>) => M
-  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => B
+  readonly reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+  readonly foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => M
+  readonly reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
 }
 
 export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
@@ -399,33 +400,33 @@ export interface PipeableFoldableWithIndex<F, I> extends PipeableFoldable<F> {
 }
 
 export interface PipeableFoldableWithIndex1<F extends URIS, I> extends PipeableFoldable1<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Type<F, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Type<F, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Type<F, A>) => B
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Kind<F, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Kind<F, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Kind<F, A>) => B
 }
 
 export interface PipeableFoldableWithIndex2<F extends URIS2, I> extends PipeableFoldable2<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <L>(fa: Type2<F, L, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <L>(fa: Type2<F, L, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <L>(fa: Type2<F, L, A>) => B
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <E>(fa: Kind2<F, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <E>(fa: Kind2<F, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <E>(fa: Kind2<F, E, A>) => B
 }
 
-export interface PipeableFoldableWithIndex2C<F extends URIS2, I, L> extends PipeableFoldable2C<F, L> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Type2<F, L, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Type2<F, L, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Type2<F, L, A>) => B
+export interface PipeableFoldableWithIndex2C<F extends URIS2, I, E> extends PipeableFoldable2C<F, E> {
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => (fa: Kind2<F, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => (fa: Kind2<F, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => (fa: Kind2<F, E, A>) => B
 }
 
 export interface PipeableFoldableWithIndex3<F extends URIS3, I> extends PipeableFoldable3<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <U, L>(fa: Type3<F, U, L, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <U, L>(fa: Type3<F, U, L, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <U, L>(fa: Type3<F, U, L, A>) => B
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <R, E>(fa: Kind3<F, R, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <R, E>(fa: Kind3<F, R, E, A>) => B
 }
 
 export interface PipeableFoldableWithIndex4<F extends URIS4, I> extends PipeableFoldable4<F> {
-  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => B
-  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <X, U, L>(fa: Type4<F, X, U, L, A>) => M
-  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <X, U, L>(fa: Type4<F, X, U, L, A>) => B
+  readonly reduceWithIndex: <A, B>(b: B, f: (i: I, b: B, a: A) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
+  readonly foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: I, a: A) => M) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => M
+  readonly reduceRightWithIndex: <A, B>(b: B, f: (i: I, a: A, b: B) => B) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => B
 }
 
 export interface PipeableAlt<F> {
@@ -433,23 +434,23 @@ export interface PipeableAlt<F> {
 }
 
 export interface PipeableAlt1<F extends URIS> {
-  readonly alt: <A>(that: () => Type<F, A>) => (fa: Type<F, A>) => Type<F, A>
+  readonly alt: <A>(that: () => Kind<F, A>) => (fa: Kind<F, A>) => Kind<F, A>
 }
 
 export interface PipeableAlt2<F extends URIS2> {
-  readonly alt: <L, A>(that: () => Type2<F, L, A>) => (fa: Type2<F, L, A>) => Type2<F, L, A>
+  readonly alt: <E, A>(that: () => Kind2<F, E, A>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
-export interface PipeableAlt2C<F extends URIS2, L> {
-  readonly alt: <A>(that: () => Type2<F, L, A>) => (fa: Type2<F, L, A>) => Type2<F, L, A>
+export interface PipeableAlt2C<F extends URIS2, E> {
+  readonly alt: <A>(that: () => Kind2<F, E, A>) => (fa: Kind2<F, E, A>) => Kind2<F, E, A>
 }
 
 export interface PipeableAlt3<F extends URIS3> {
-  readonly alt: <U, L, A>(that: () => Type3<F, U, L, A>) => (fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+  readonly alt: <R, E, A>(that: () => Kind3<F, R, E, A>) => (fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
 }
 
 export interface PipeableAlt4<F extends URIS4> {
-  readonly alt: <X, U, L, A>(that: () => Type4<F, X, U, L, A>) => (fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+  readonly alt: <S, R, E, A>(that: () => Kind4<F, S, R, E, A>) => (fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
 }
 
 export interface PipeableCompactable<F> {
@@ -458,30 +459,30 @@ export interface PipeableCompactable<F> {
 }
 
 export interface PipeableCompactable1<F extends URIS> {
-  readonly compact: <A>(fa: Type<F, Option<A>>) => Type<F, A>
-  readonly separate: <A, B>(fa: Type<F, Either<A, B>>) => Separated<Type<F, A>, Type<F, B>>
+  readonly compact: <A>(fa: Kind<F, Option<A>>) => Kind<F, A>
+  readonly separate: <A, B>(fa: Kind<F, Either<A, B>>) => Separated<Kind<F, A>, Kind<F, B>>
 }
 
 export interface PipeableCompactable2<F extends URIS2> {
-  readonly compact: <L, A>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
-  readonly separate: <L, A, B>(fa: Type2<F, L, Either<A, B>>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
+  readonly compact: <E, A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
+  readonly separate: <E, A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
 
-export interface PipeableCompactable2C<F extends URIS2, L> {
-  readonly compact: <A>(fa: Type2<F, L, Option<A>>) => Type2<F, L, A>
-  readonly separate: <A, B>(fa: Type2<F, L, Either<A, B>>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
+export interface PipeableCompactable2C<F extends URIS2, E> {
+  readonly compact: <A>(fa: Kind2<F, E, Option<A>>) => Kind2<F, E, A>
+  readonly separate: <A, B>(fa: Kind2<F, E, Either<A, B>>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
 }
 
 export interface PipeableCompactable3<F extends URIS3> {
-  readonly compact: <U, L, A>(fa: Type3<F, U, L, Option<A>>) => Type3<F, U, L, A>
-  readonly separate: <U, L, A, B>(fa: Type3<F, U, L, Either<A, B>>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
+  readonly compact: <R, E, A>(fa: Kind3<F, R, E, Option<A>>) => Kind3<F, R, E, A>
+  readonly separate: <R, E, A, B>(fa: Kind3<F, R, E, Either<A, B>>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
 }
 
 export interface PipeableCompactable4<F extends URIS4> {
-  readonly compact: <X, U, L, A>(fa: Type4<F, X, U, L, Option<A>>) => Type4<F, X, U, L, A>
-  readonly separate: <X, U, L, A, B>(
-    fa: Type4<F, X, U, L, Either<A, B>>
-  ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
+  readonly compact: <S, R, E, A>(fa: Kind4<F, S, R, E, Option<A>>) => Kind4<F, S, R, E, A>
+  readonly separate: <S, R, E, A, B>(
+    fa: Kind4<F, S, R, E, Either<A, B>>
+  ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
 }
 
 export interface PipeableFilterable<F> extends PipeableCompactable<F> {
@@ -494,90 +495,86 @@ export interface PipeableFilterable<F> extends PipeableCompactable<F> {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, B>>
     <A>(predicate: Predicate<A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => (fa: HKT<F, A>) => Separated<HKT<F, RL>, HKT<F, RR>>
+  readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
 }
 
 export interface PipeableFilterable1<F extends URIS> extends PipeableCompactable1<F> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: Type<F, A>) => Type<F, B>
-    <A>(predicate: Predicate<A>): (fa: Type<F, A>) => Type<F, A>
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Kind<F, B>
+    <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Kind<F, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Type<F, A>) => Type<F, B>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Kind<F, A>) => Kind<F, B>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: Type<F, A>) => Separated<Type<F, A>, Type<F, B>>
-    <A>(predicate: Predicate<A>): (fa: Type<F, A>) => Separated<Type<F, A>, Type<F, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, B>>
+    <A>(predicate: Predicate<A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => (fa: Type<F, A>) => Separated<Type<F, RL>, Type<F, RR>>
+  readonly partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
 }
 
 export interface PipeableFilterable2<F extends URIS2> extends PipeableCompactable2<F> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-    <A>(predicate: Predicate<A>): <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
+    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <L>(fa: Type2<F, L, A>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
-    <A>(predicate: Predicate<A>): <L>(fa: Type2<F, L, A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicate: Predicate<A>): <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => <L>(fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  readonly partitionMap: <A, B, C>(
+    f: (a: A) => Either<B, C>
+  ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
 }
 
-export interface PipeableFilterable2C<F extends URIS2, L> extends PipeableCompactable2C<F, L> {
+export interface PipeableFilterable2C<F extends URIS2, E> extends PipeableCompactable2C<F, E> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: Type2<F, L, A>) => Type2<F, L, B>
-    <A>(predicate: Predicate<A>): (fa: Type2<F, L, A>) => Type2<F, L, A>
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): (fa: Type2<F, L, A>) => Separated<Type2<F, L, A>, Type2<F, L, B>>
-    <A>(predicate: Predicate<A>): (fa: Type2<F, L, A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicate: Predicate<A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => (fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  readonly partitionMap: <A, B, C>(
+    f: (a: A) => Either<B, C>
+  ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
 }
 
 export interface PipeableFilterable3<F extends URIS3> extends PipeableCompactable3<F> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, B>
-    <A>(predicate: Predicate<A>): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, B>
+    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <U, L>(
-      fa: Type3<F, U, L, A>
-    ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
-    <A>(predicate: Predicate<A>): <U, L>(fa: Type3<F, U, L, A>) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): <R, E>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+    <A>(predicate: Predicate<A>): <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => <U, L>(fa: Type3<F, U, L, A>) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
+  readonly partitionMap: <A, B, C>(
+    f: (a: A) => Either<B, C>
+  ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
 }
 
 export interface PipeableFilterable4<F extends URIS4> extends PipeableCompactable4<F> {
   readonly filter: {
-    <A, B extends A>(refinement: Refinement<A, B>): <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, B>
-    <A>(predicate: Predicate<A>): <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+    <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, B>
+    <A>(predicate: Predicate<A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
   }
-  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+  readonly filterMap: <A, B>(f: (a: A) => Option<B>) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
   readonly partition: {
-    <A, B extends A>(refinement: Refinement<A, B>): <X, U, L>(
-      fa: Type4<F, X, U, L, A>
-    ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
-    <A>(predicate: Predicate<A>): <X, U, L>(
-      fa: Type4<F, X, U, L, A>
-    ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, A>>
+    <A, B extends A>(refinement: Refinement<A, B>): <S, R, E>(
+      fa: Kind4<F, S, R, E, A>
+    ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+    <A>(predicate: Predicate<A>): <S, R, E>(
+      fa: Kind4<F, S, R, E, A>
+    ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
   }
-  readonly partitionMap: <A, RL, RR>(
-    f: (a: A) => Either<RL, RR>
-  ) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partitionMap: <A, B, C>(
+    f: (a: A) => Either<B, C>
+  ) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>
 }
 
 export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F> {
@@ -592,152 +589,233 @@ export interface PipeableFilterableWithIndex<F, I> extends PipeableFilterable<F>
     ) => Separated<HKT<F, A>, HKT<F, B>>
     <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: HKT<F, A>) => Separated<HKT<F, A>, HKT<F, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => (fa: HKT<F, A>) => Separated<HKT<F, RL>, HKT<F, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => (fa: HKT<F, A>) => Separated<HKT<F, B>, HKT<F, C>>
 }
 
 export interface PipeableFilterableWithIndex1<F extends URIS, I> extends PipeableFilterable1<F> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Type<F, A>) => Type<F, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Type<F, A>) => Type<F, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind<F, A>) => Kind<F, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Kind<F, A>
   }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Type<F, A>) => Type<F, B>
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind<F, A>) => Kind<F, B>
   readonly partitionWithIndex: {
     <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
-      fa: Type<F, A>
-    ) => Separated<Type<F, A>, Type<F, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Type<F, A>) => Separated<Type<F, A>, Type<F, A>>
+      fa: Kind<F, A>
+    ) => Separated<Kind<F, A>, Kind<F, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind<F, A>) => Separated<Kind<F, A>, Kind<F, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => (fa: Type<F, A>) => Separated<Type<F, RL>, Type<F, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => (fa: Kind<F, A>) => Separated<Kind<F, B>, Kind<F, C>>
 }
 
 export interface PipeableFilterableWithIndex2<F extends URIS2, I> extends PipeableFilterable2<F> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <L>(fa: Type2<F, L, A>) => Type2<F, L, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E>(fa: Kind2<F, E, A>) => Kind2<F, E, A>
   }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => <L>(fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => <E>(fa: Kind2<F, E, A>) => Kind2<F, E, B>
   readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <L>(
-      fa: Type2<F, L, A>
-    ) => Separated<Type2<F, L, A>, Type2<F, L, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <L>(
-      fa: Type2<F, L, A>
-    ) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <E>(
+      fa: Kind2<F, E, A>
+    ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <E>(
+      fa: Kind2<F, E, A>
+    ) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => <L>(fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => <E>(fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
 }
 
-export interface PipeableFilterableWithIndex2C<F extends URIS2, I, L> extends PipeableFilterable2C<F, L> {
+export interface PipeableFilterableWithIndex2C<F extends URIS2, I, E> extends PipeableFilterable2C<F, E> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Type2<F, L, A>) => Type2<F, L, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Type2<F, L, A>) => Type2<F, L, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (fa: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Kind2<F, E, A>
   }
-  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Type2<F, L, A>) => Type2<F, L, B>
+  readonly filterMapWithIndex: <A, B>(f: (i: I, a: A) => Option<B>) => (fa: Kind2<F, E, A>) => Kind2<F, E, B>
   readonly partitionWithIndex: {
     <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): (
-      fa: Type2<F, L, A>
-    ) => Separated<Type2<F, L, A>, Type2<F, L, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Type2<F, L, A>) => Separated<Type2<F, L, A>, Type2<F, L, A>>
+      fa: Kind2<F, E, A>
+    ) => Separated<Kind2<F, E, A>, Kind2<F, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, A>, Kind2<F, E, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => (fa: Type2<F, L, A>) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => (fa: Kind2<F, E, A>) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
 }
 
 export interface PipeableFilterableWithIndex3<F extends URIS3, I> extends PipeableFilterable3<F> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <U, L>(
-      fa: Type3<F, U, L, A>
-    ) => Type3<F, U, L, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
+      fa: Kind3<F, R, E, A>
+    ) => Kind3<F, R, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   }
   readonly filterMapWithIndex: <A, B>(
     f: (i: I, a: A) => Option<B>
-  ) => <U, L>(fa: Type3<F, U, L, A>) => Type3<F, U, L, A>
+  ) => <R, E>(fa: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
   readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <U, L>(
-      fa: Type3<F, U, L, A>
-    ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <U, L>(
-      fa: Type3<F, U, L, A>
-    ) => Separated<Type3<F, U, L, A>, Type3<F, U, L, A>>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <R, E>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <R, E>(
+      fa: Kind3<F, R, E, A>
+    ) => Separated<Kind3<F, R, E, A>, Kind3<F, R, E, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => <U, L>(fa: Type3<F, U, L, A>) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => <R, E>(fa: Kind3<F, R, E, A>) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
 }
 
 export interface PipeableFilterableWithIndex4<F extends URIS4, I> extends PipeableFilterable4<F> {
   readonly filterWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <X, U, L>(
-      fa: Type4<F, X, U, L, A>
-    ) => Type4<F, X, U, L, B>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
+      fa: Kind4<F, S, R, E, A>
+    ) => Kind4<F, S, R, E, B>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
   }
   readonly filterMapWithIndex: <A, B>(
     f: (i: I, a: A) => Option<B>
-  ) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Type4<F, X, U, L, A>
+  ) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
   readonly partitionWithIndex: {
-    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <X, U, L>(
-      fa: Type4<F, X, U, L, A>
-    ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, B>>
-    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <X, U, L>(
-      fa: Type4<F, X, U, L, A>
-    ) => Separated<Type4<F, X, U, L, A>, Type4<F, X, U, L, A>>
+    <A, B extends A>(refinementWithIndex: RefinementWithIndex<I, A, B>): <S, R, E>(
+      fa: Kind4<F, S, R, E, A>
+    ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, B>>
+    <A>(predicateWithIndex: PredicateWithIndex<I, A>): <S, R, E>(
+      fa: Kind4<F, S, R, E, A>
+    ) => Separated<Kind4<F, S, R, E, A>, Kind4<F, S, R, E, A>>
   }
-  readonly partitionMapWithIndex: <A, RL, RR>(
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => <X, U, L>(fa: Type4<F, X, U, L, A>) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    f: (i: I, a: A) => Either<B, C>
+  ) => <S, R, E>(fa: Kind4<F, S, R, E, A>) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>
 }
 
 export interface PipeableProfunctor<F> {
-  readonly map: <L, A, B>(f: (a: A) => B) => (fa: HKT2<F, L, A>) => HKT2<F, L, B>
-  readonly promap: <A, B, C, D>(f: (a: A) => B, g: (c: C) => D) => (fbc: HKT2<F, B, C>) => HKT2<F, A, D>
+  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: HKT2<F, E, A>) => HKT2<F, D, B>
 }
 
 export interface PipeableProfunctor2<F extends URIS2> extends PipeableFunctor2<F> {
-  readonly promap: <A, B, C, D>(f: (a: A) => B, g: (c: C) => D) => (fbc: Type2<F, B, C>) => Type2<F, A, D>
+  readonly promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
 }
 
-export interface PipeableProfunctor2C<F extends URIS2, L> extends PipeableFunctor2C<F, L> {
-  readonly promap: <A, C, D>(f: (a: A) => L, g: (c: C) => D) => (flc: Type2<F, L, C>) => Type2<F, A, D>
+export interface PipeableProfunctor2C<F extends URIS2, E> extends PipeableFunctor2C<F, E> {
+  readonly promap: <A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind2<F, E, A>) => Kind2<F, D, B>
 }
 
 export interface PipeableProfunctor3<F extends URIS3> extends PipeableFunctor3<F> {
-  readonly promap: <U, A, B, C, D>(f: (a: A) => B, g: (c: C) => D) => (fbc: Type3<F, U, B, C>) => Type3<F, U, A, D>
+  readonly promap: <R, E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Kind3<F, R, E, A>) => Kind3<F, R, D, B>
 }
 
 export interface PipeableProfunctor4<F extends URIS4> extends PipeableFunctor4<F> {
-  readonly promap: <X, U, A, B, C, D>(
-    f: (a: A) => B,
-    g: (c: C) => D
-  ) => (fbc: Type4<F, X, U, B, C>) => Type4<F, X, U, A, D>
+  readonly promap: <S, R, E, A, D, B>(
+    f: (d: D) => E,
+    g: (a: A) => B
+  ) => (fbc: Kind4<F, S, R, E, A>) => Kind4<F, S, R, D, B>
 }
 
 export interface PipeableSemigroupoid<F> {
-  readonly compose: <L, A>(la: HKT2<F, L, A>) => <B>(ab: HKT2<F, A, B>) => HKT2<F, L, B>
+  readonly compose: <E, A>(la: HKT2<F, E, A>) => <B>(ab: HKT2<F, A, B>) => HKT2<F, E, B>
 }
 
 export interface PipeableSemigroupoid2<F extends URIS2> {
-  readonly compose: <L, A>(la: Type2<F, L, A>) => <B>(ab: Type2<F, A, B>) => Type2<F, L, B>
+  readonly compose: <E, A>(la: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
 }
 
-export interface PipeableSemigroupoid2C<F extends URIS2, L> {
-  readonly compose: <A>(la: Type2<F, L, A>) => <B>(ab: Type2<F, A, B>) => Type2<F, L, B>
+export interface PipeableSemigroupoid2C<F extends URIS2, E> {
+  readonly compose: <A>(la: Kind2<F, E, A>) => <B>(ab: Kind2<F, A, B>) => Kind2<F, E, B>
 }
 
 export interface PipeableSemigroupoid3<F extends URIS3> {
-  readonly compose: <U, L, A>(la: Type3<F, U, L, A>) => <B>(ab: Type3<F, U, A, B>) => Type3<F, U, L, B>
+  readonly compose: <R, E, A>(la: Kind3<F, R, E, A>) => <B>(ab: Kind3<F, R, A, B>) => Kind3<F, R, E, B>
 }
 
 export interface PipeableSemigroupoid4<F extends URIS4> {
-  readonly compose: <X, U, L, A>(la: Type4<F, X, U, L, A>) => <B>(ab: Type4<F, X, U, A, B>) => Type4<F, X, U, L, B>
+  readonly compose: <S, R, E, A>(la: Kind4<F, S, R, E, A>) => <B>(ab: Kind4<F, S, R, A, B>) => Kind4<F, S, R, E, B>
+}
+
+export interface PipeableMonadThrow<F> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => HKT<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => HKT<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => HKT<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: HKT<F, A>) => HKT<F, A>
+  }
+}
+
+export interface PipeableMonadThrow1<F extends URIS> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind<F, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind<F, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind<F, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind<F, A>) => Kind<F, A>
+  }
+}
+
+export interface PipeableMonadThrow2<F extends URIS2> {
+  readonly fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <E, A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+
+export interface PipeableMonadThrow2C<F extends URIS2, E> {
+  readonly fromOption: (onNone: () => E) => <A>(ma: Option<A>) => Kind2<F, E, A>
+  readonly fromEither: <A>(ma: Either<E, A>) => Kind2<F, E, A>
+  readonly fromPredicate: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Kind2<F, E, A>
+  }
+  readonly filterOrElse: {
+    <A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, B>
+    <A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Kind2<F, E, A>) => Kind2<F, E, A>
+  }
+}
+
+export interface PipeableMonadThrow3<F extends URIS3> {
+  readonly fromOption: <E>(onNone: () => E) => <R, A>(ma: Option<A>) => Kind3<F, R, E, A>
+  readonly fromEither: <R, E, A>(ma: Either<E, A>) => Kind3<F, R, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => Kind3<F, U, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => Kind3<F, R, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(
+      ma: Kind3<F, R, E, A>
+    ) => Kind3<F, R, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: Kind3<F, R, E, A>) => Kind3<F, R, E, A>
+  }
+}
+
+export interface PipeableMonadThrow4<F extends URIS4> {
+  readonly fromOption: <E>(onNone: () => E) => <S, R, A>(ma: Option<A>) => Kind4<F, S, R, E, A>
+  readonly fromEither: <S, R, E, A>(ma: Either<E, A>) => Kind4<F, S, R, E, A>
+  readonly fromPredicate: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(a: A) => Kind4<F, S, R, E, A>
+  }
+  readonly filterOrElse: {
+    <E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <S, R>(
+      ma: Kind4<F, S, R, E, A>
+    ) => Kind4<F, S, R, E, B>
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <S, R>(ma: Kind4<F, S, R, E, A>) => Kind4<F, S, R, E, A>
+  }
 }
 
 const isFunctor = <F>(I: any): I is Functor<F> => typeof I.map === 'function'
@@ -756,6 +834,7 @@ const isFilterableWithIndex = <F>(I: any): I is FilterableWithIndex<F, unknown> 
   typeof I.filterWithIndex === 'function'
 const isProfunctor = <F>(I: any): I is Profunctor<F> => typeof I.promap === 'function'
 const isSemigroupoid = <F>(I: any): I is Semigroupoid<F> => typeof I.compose === 'function'
+const isMonadThrow = <F>(I: any): I is MonadThrow<F> => typeof I.throwError === 'function'
 
 /**
  * @since 2.0.0
@@ -787,7 +866,8 @@ export function pipeable<F extends URIS4, I>(
     ? PipeableCompactable4<F>
     : {}) &
   (I extends Profunctor4<F> ? PipeableProfunctor4<F> : {}) &
-  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {})
+  (I extends Semigroupoid4<F> ? PipeableSemigroupoid4<F> : {}) &
+  (I extends MonadThrow4<F> ? PipeableMonadThrow4<F> : {})
 export function pipeable<F extends URIS3, I>(
   I: { URI: F } & I
 ): (I extends Chain3<F>
@@ -815,34 +895,36 @@ export function pipeable<F extends URIS3, I>(
     ? PipeableCompactable3<F>
     : {}) &
   (I extends Profunctor3<F> ? PipeableProfunctor3<F> : {}) &
-  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {})
-export function pipeable<F extends URIS2, I, L>(
-  I: { URI: F; _L: L } & I
-): (I extends Chain2C<F, L>
-  ? PipeableChain2C<F, L>
-  : I extends Apply2C<F, L>
-  ? PipeableApply2C<F, L>
-  : I extends Functor2C<F, L>
-  ? PipeableFunctor2C<F, L>
+  (I extends Semigroupoid3<F> ? PipeableSemigroupoid3<F> : {}) &
+  (I extends MonadThrow3<F> ? PipeableMonadThrow3<F> : {})
+export function pipeable<F extends URIS2, I, E>(
+  I: { URI: F; _E: E } & I
+): (I extends Chain2C<F, E>
+  ? PipeableChain2C<F, E>
+  : I extends Apply2C<F, E>
+  ? PipeableApply2C<F, E>
+  : I extends Functor2C<F, E>
+  ? PipeableFunctor2C<F, E>
   : {}) &
-  (I extends Contravariant2C<F, L> ? PipeableContravariant2C<F, L> : {}) &
-  (I extends FunctorWithIndex2C<F, infer Ix, L> ? PipeableFunctorWithIndex2C<F, Ix, L> : {}) &
-  (I extends Extend2C<F, L> ? PipeableExtend2C<F, L> : {}) &
-  (I extends FoldableWithIndex2C<F, infer Ix, L>
-    ? PipeableFoldableWithIndex2C<F, Ix, L>
-    : I extends Foldable2C<F, L>
-    ? PipeableFoldable2C<F, L>
+  (I extends Contravariant2C<F, E> ? PipeableContravariant2C<F, E> : {}) &
+  (I extends FunctorWithIndex2C<F, infer Ix, E> ? PipeableFunctorWithIndex2C<F, Ix, E> : {}) &
+  (I extends Extend2C<F, E> ? PipeableExtend2C<F, E> : {}) &
+  (I extends FoldableWithIndex2C<F, infer Ix, E>
+    ? PipeableFoldableWithIndex2C<F, Ix, E>
+    : I extends Foldable2C<F, E>
+    ? PipeableFoldable2C<F, E>
     : {}) &
-  (I extends Alt2C<F, L> ? PipeableAlt2C<F, L> : {}) &
-  (I extends FilterableWithIndex2C<F, infer Ix, L>
-    ? PipeableFilterableWithIndex2C<F, Ix, L>
-    : I extends Filterable2C<F, L>
-    ? PipeableFilterable2C<F, L>
-    : I extends Compactable2C<F, L>
-    ? PipeableCompactable2C<F, L>
+  (I extends Alt2C<F, E> ? PipeableAlt2C<F, E> : {}) &
+  (I extends FilterableWithIndex2C<F, infer Ix, E>
+    ? PipeableFilterableWithIndex2C<F, Ix, E>
+    : I extends Filterable2C<F, E>
+    ? PipeableFilterable2C<F, E>
+    : I extends Compactable2C<F, E>
+    ? PipeableCompactable2C<F, E>
     : {}) &
-  (I extends Profunctor2C<F, L> ? PipeableProfunctor2C<F, L> : {}) &
-  (I extends Semigroupoid2C<F, L> ? PipeableSemigroupoid2C<F, L> : {})
+  (I extends Profunctor2C<F, E> ? PipeableProfunctor2C<F, E> : {}) &
+  (I extends Semigroupoid2C<F, E> ? PipeableSemigroupoid2C<F, E> : {}) &
+  (I extends MonadThrow2C<F, E> ? PipeableMonadThrow2C<F, E> : {})
 export function pipeable<F extends URIS2, I>(
   I: { URI: F } & I
 ): (I extends Chain2<F>
@@ -870,7 +952,8 @@ export function pipeable<F extends URIS2, I>(
     ? PipeableCompactable2<F>
     : {}) &
   (I extends Profunctor2<F> ? PipeableProfunctor2<F> : {}) &
-  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {})
+  (I extends Semigroupoid2<F> ? PipeableSemigroupoid2<F> : {}) &
+  (I extends MonadThrow2<F> ? PipeableMonadThrow2<F> : {})
 export function pipeable<F extends URIS, I>(
   I: { URI: F } & I
 ): (I extends Chain1<F>
@@ -895,7 +978,8 @@ export function pipeable<F extends URIS, I>(
     ? PipeableFilterable1<F>
     : I extends Compactable1<F>
     ? PipeableCompactable1<F>
-    : {})
+    : {}) &
+  (I extends MonadThrow1<F> ? PipeableMonadThrow1<F> : {})
 export function pipeable<F, I>(
   I: { URI: F } & I
 ): (I extends Chain<F>
@@ -923,8 +1007,9 @@ export function pipeable<F, I>(
     ? PipeableCompactable<F>
     : {}) &
   (I extends Profunctor<F> ? PipeableProfunctor<F> : {}) &
-  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {})
-export function pipeable<F, I>(I: { URI: F } & I): any {
+  (I extends Semigroupoid<F> ? PipeableSemigroupoid<F> : {}) &
+  (I extends MonadThrow<F> ? PipeableMonadThrow<F> : {})
+export function pipeable<F, I>(I: { URI: F } & I): Record<string, unknown> {
   const r: any = {}
   if (isFunctor<F>(I)) {
     const map: PipeableFunctor<F>['map'] = f => fa => I.map(fa, f)
@@ -1036,6 +1121,24 @@ export function pipeable<F, I>(I: { URI: F } & I): any {
         that
       )
     r.compose = compose
+  }
+  if (isMonadThrow<F>(I)) {
+    const fromOption: PipeableMonadThrow<F>['fromOption'] = onNone => ma =>
+      ma._tag === 'None' ? I.throwError(onNone()) : I.of(ma.value)
+    const fromEither: PipeableMonadThrow<F>['fromEither'] = ma =>
+      ma._tag === 'Left' ? I.throwError(ma.left) : I.of(ma.right)
+    const fromPredicate: PipeableMonadThrow<F>['fromPredicate'] = <E, A>(
+      predicate: Predicate<A>,
+      onFalse: (a: A) => E
+    ) => (a: A) => (predicate(a) ? I.of(a) : I.throwError(onFalse(a)))
+    const filterOrElse: PipeableMonadThrow<F>['filterOrElse'] = <E, A>(
+      predicate: Predicate<A>,
+      onFalse: (a: A) => E
+    ) => (ma: HKT<F, A>) => I.chain(ma, a => (predicate(a) ? I.of(a) : I.throwError(onFalse(a))))
+    r.fromOption = fromOption
+    r.fromEither = fromEither
+    r.fromPredicate = fromPredicate
+    r.filterOrElse = filterOrElse
   }
   return r
 }

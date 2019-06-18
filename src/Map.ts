@@ -6,7 +6,7 @@ import { Filterable2 } from './Filterable'
 import { FilterableWithIndex2C } from './FilterableWithIndex'
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable'
 import { Predicate } from './function'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT'
 import { Magma } from './Magma'
 import { Monoid } from './Monoid'
 import { isNone, isSome, none, Option, option, some } from './Option'
@@ -19,8 +19,8 @@ import { Witherable2C } from './Witherable'
 import { pipeable } from './pipeable'
 
 declare module './HKT' {
-  interface URI2HKT2<L, A> {
-    Map: Map<L, A>
+  interface URItoKind2<E, A> {
+    Map: Map<E, A>
   }
 }
 
@@ -146,7 +146,7 @@ export function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]> {
  *
  * @since 2.0.0
  */
-export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Type<F, [K, A]>
+export function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>
 export function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]> {
   const toArrayO = toArray(O)
@@ -359,17 +359,17 @@ export function fromFoldable<F extends URIS3, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable3<F>
-): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>
+): <R, E>(fka: Kind3<F, R, E, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS2, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable2<F>
-): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>
+): <E>(fka: Kind2<F, E, [K, A]>) => Map<K, A>
 export function fromFoldable<F extends URIS, K, A>(
   E: Eq<K>,
   M: Magma<A>,
   F: Foldable1<F>
-): (fka: Type<F, [K, A]>) => Map<K, A>
+): (fka: Kind<F, [K, A]>) => Map<K, A>
 export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A>
 export function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A> {
   return (fka: HKT<F, [K, A]>) => {
@@ -397,12 +397,12 @@ const _mapWithIndex = <K, A, B>(fa: Map<K, A>, f: (k: K, a: A) => B): Map<K, B> 
   return m
 }
 
-const _partitionMapWithIndex = <K, RL, RR, A>(
+const _partitionMapWithIndex = <K, A, B, C>(
   fa: Map<K, A>,
-  f: (k: K, a: A) => Either<RL, RR>
-): Separated<Map<K, RL>, Map<K, RR>> => {
-  const left = new Map<K, RL>()
-  const right = new Map<K, RR>()
+  f: (k: K, a: A) => Either<B, C>
+): Separated<Map<K, B>, Map<K, C>> => {
+  const left = new Map<K, B>()
+  const right = new Map<K, C>()
   const entries = fa.entries()
   let e: IteratorResult<[K, A]>
   while (!(e = entries.next()).done) {
@@ -472,7 +472,7 @@ const _filterWithIndex = <K, A>(fa: Map<K, A>, p: (k: K, a: A) => boolean): Map<
 export function getFilterableWithIndex<K = never>(): FilterableWithIndex2C<URI, K, K> {
   return {
     ...map_,
-    _L: undefined as any,
+    _E: undefined as any,
     mapWithIndex: _mapWithIndex,
     partitionMapWithIndex: _partitionMapWithIndex,
     partitionWithIndex: _partitionWithIndex,
@@ -547,7 +547,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
 
   return {
     ...map_,
-    _L: undefined as any,
+    _E: undefined as any,
     reduce: (fa, b, f) => reduceWithIndex(fa, b, (_, b, a) => f(b, a)),
     foldMap: M => {
       const foldMapWithIndexM = foldMapWithIndex(M)
@@ -563,10 +563,7 @@ export function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & TraversableW
     traverseWithIndex,
     wilt: <F>(
       F: Applicative<F>
-    ): (<K, RL, RR, A>(
-      wa: Map<K, A>,
-      f: (a: A) => HKT<F, Either<RL, RR>>
-    ) => HKT<F, Separated<Map<K, RL>, Map<K, RR>>>) => {
+    ): (<K, A, B, C>(wa: Map<K, A>, f: (a: A) => HKT<F, Either<B, C>>) => HKT<F, Separated<Map<K, B>, Map<K, C>>>) => {
       const traverseF = traverse(F)
       return (wa, f) => F.map(traverseF(wa, f), map_.separate)
     },
@@ -595,11 +592,11 @@ export const map_: Filterable2<URI> = {
     }
     return m
   },
-  separate: <K, RL, RR>(fa: Map<K, Either<RL, RR>>): Separated<Map<K, RL>, Map<K, RR>> => {
-    const left = new Map<K, RL>()
-    const right = new Map<K, RR>()
+  separate: <K, A, B>(fa: Map<K, Either<A, B>>): Separated<Map<K, A>, Map<K, B>> => {
+    const left = new Map<K, A>()
+    const right = new Map<K, B>()
     const entries = fa.entries()
-    let e: IteratorResult<[K, Either<RL, RR>]>
+    let e: IteratorResult<[K, Either<A, B>]>
     while (!(e = entries.next()).done) {
       const [k, ei] = e.value
       if (isLeft(ei)) {

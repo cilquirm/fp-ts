@@ -46,7 +46,7 @@ Added in v2.0.0
 
 ```ts
 export interface Chain1<F extends URIS> extends Apply1<F> {
-  readonly chain: <A, B>(fa: Type<F, A>, f: (a: A) => Type<F, B>) => Type<F, B>
+  readonly chain: <A, B>(fa: Kind<F, A>, f: (a: A) => Kind<F, B>) => Kind<F, B>
 }
 ```
 
@@ -58,7 +58,7 @@ Added in v2.0.0
 
 ```ts
 export interface Chain2<F extends URIS2> extends Apply2<F> {
-  readonly chain: <L, A, B>(fa: Type2<F, L, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, B>
+  readonly chain: <E, A, B>(fa: Kind2<F, E, A>, f: (a: A) => Kind2<F, E, B>) => Kind2<F, E, B>
 }
 ```
 
@@ -69,8 +69,8 @@ Added in v2.0.0
 **Signature**
 
 ```ts
-export interface Chain2C<F extends URIS2, L> extends Apply2C<F, L> {
-  readonly chain: <A, B>(fa: Type2<F, L, A>, f: (a: A) => Type2<F, L, B>) => Type2<F, L, B>
+export interface Chain2C<F extends URIS2, E> extends Apply2C<F, E> {
+  readonly chain: <A, B>(fa: Kind2<F, E, A>, f: (a: A) => Kind2<F, E, B>) => Kind2<F, E, B>
 }
 ```
 
@@ -82,7 +82,7 @@ Added in v2.0.0
 
 ```ts
 export interface Chain3<F extends URIS3> extends Apply3<F> {
-  readonly chain: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (a: A) => Type3<F, U, L, B>) => Type3<F, U, L, B>
+  readonly chain: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (a: A) => Kind3<F, R, E, B>) => Kind3<F, R, E, B>
 }
 ```
 
@@ -94,7 +94,7 @@ Added in v2.0.0
 
 ```ts
 export interface Chain4<F extends URIS4> extends Apply4<F> {
-  readonly chain: <X, U, L, A, B>(fa: Type4<F, X, U, L, A>, f: (a: A) => Type4<F, X, U, L, B>) => Type4<F, X, U, L, B>
+  readonly chain: <S, R, E, A, B>(fa: Kind4<F, S, R, E, A>, f: (a: A) => Kind4<F, S, R, E, B>) => Kind4<F, S, R, E, B>
 }
 ```
 

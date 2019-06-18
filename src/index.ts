@@ -96,6 +96,8 @@ import * as monadIO from './MonadIO'
 export { monadIO }
 import * as monadTask from './MonadTask'
 export { monadTask }
+import * as monadThrow from './MonadThrow'
+export { monadThrow }
 import * as monoid from './Monoid'
 export { monoid }
 import * as nonEmptyArray from './NonEmptyArray'
@@ -110,8 +112,6 @@ import * as ordering from './Ordering'
 export { ordering }
 import * as pipeable from './pipeable'
 export { pipeable }
-import * as plus from './Plus'
-export { plus }
 import * as profunctor from './Profunctor'
 export { profunctor }
 import * as random from './Random'

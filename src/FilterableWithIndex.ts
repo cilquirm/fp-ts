@@ -9,7 +9,7 @@ import {
   FunctorWithIndex3,
   FunctorWithIndex4
 } from './FunctorWithIndex'
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3, URIS4, Type4 } from './HKT'
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3, URIS4, Kind4 } from './HKT'
 import { Option } from './Option'
 
 /**
@@ -42,10 +42,10 @@ export interface PartitionWithIndex<F, I> {
  * @since 2.0.0
  */
 export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filterable<F> {
-  readonly partitionMapWithIndex: <RL, RR, A>(
+  readonly partitionMapWithIndex: <A, B, C>(
     fa: HKT<F, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<HKT<F, RL>, HKT<F, RR>>
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<HKT<F, B>, HKT<F, C>>
   readonly partitionWithIndex: PartitionWithIndex<F, I>
   readonly filterMapWithIndex: <A, B>(fa: HKT<F, A>, f: (i: I, a: A) => Option<B>) => HKT<F, B>
   readonly filterWithIndex: FilterWithIndex<F, I>
@@ -55,28 +55,28 @@ export interface FilterableWithIndex<F, I> extends FunctorWithIndex<F, I>, Filte
  * @since 2.0.0
  */
 export interface FilterWithIndex1<F extends URIS, I> {
-  <A, B extends A>(fa: Type<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type<F, B>
-  <A>(fa: Type<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type<F, A>
+  <A, B extends A>(fa: Kind<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind<F, B>
+  <A>(fa: Kind<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind<F, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PartitionWithIndex1<F extends URIS, I> {
-  <A, B extends A>(fa: Type<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<Type<F, A>, Type<F, B>>
-  <A>(fa: Type<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Type<F, A>, Type<F, A>>
+  <A, B extends A>(fa: Kind<F, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<Kind<F, A>, Kind<F, B>>
+  <A>(fa: Kind<F, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Kind<F, A>, Kind<F, A>>
 }
 
 /**
  * @since 2.0.0
  */
 export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithIndex1<F, I>, Filterable1<F> {
-  readonly partitionMapWithIndex: <RL, RR, A>(
-    fa: Type<F, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type<F, RL>, Type<F, RR>>
+  readonly partitionMapWithIndex: <A, B, C>(
+    fa: Kind<F, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind<F, B>, Kind<F, C>>
   readonly partitionWithIndex: PartitionWithIndex1<F, I>
-  readonly filterMapWithIndex: <A, B>(fa: Type<F, A>, f: (i: I, a: A) => Option<B>) => Type<F, B>
+  readonly filterMapWithIndex: <A, B>(fa: Kind<F, A>, f: (i: I, a: A) => Option<B>) => Kind<F, B>
   readonly filterWithIndex: FilterWithIndex1<F, I>
 }
 
@@ -84,85 +84,85 @@ export interface FilterableWithIndex1<F extends URIS, I> extends FunctorWithInde
  * @since 2.0.0
  */
 export interface FilterWithIndex2<F extends URIS2, I> {
-  <L, A, B extends A>(fa: Type2<F, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type2<F, L, B>
-  <L, A>(fa: Type2<F, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type2<F, L, A>
+  <E, A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
+  <E, A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PartitionWithIndex2<F extends URIS2, I> {
-  <L, A, B extends A>(fa: Type2<F, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Type2<F, L, A>,
-    Type2<F, L, B>
+  <E, A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Kind2<F, E, A>,
+    Kind2<F, E, B>
   >
-  <L, A>(fa: Type2<F, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+  <E, A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Kind2<F, E, A>, Kind2<F, E, A>>
 }
 
 /**
  * @since 2.0.0
  */
 export interface FilterableWithIndex2<F extends URIS2, I> extends FunctorWithIndex2<F, I>, Filterable2<F> {
-  readonly partitionMapWithIndex: <RL, RR, L, A>(
-    fa: Type2<F, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
+  readonly partitionMapWithIndex: <E, A, B, C>(
+    fa: Kind2<F, E, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
   readonly partitionWithIndex: PartitionWithIndex2<F, I>
-  readonly filterMapWithIndex: <L, A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => Option<B>) => Type2<F, L, B>
+  readonly filterMapWithIndex: <E, A, B>(fa: Kind2<F, E, A>, f: (i: I, a: A) => Option<B>) => Kind2<F, E, B>
   readonly filterWithIndex: FilterWithIndex2<F, I>
 }
 
 /**
  * @since 2.0.0
  */
-export interface FilterWithIndex2C<F extends URIS2, I, L> {
-  <A, B extends A>(fa: Type2<F, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type2<F, L, B>
-  <A>(fa: Type2<F, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type2<F, L, A>
+export interface FilterWithIndex2C<F extends URIS2, I, E> {
+  <A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind2<F, E, B>
+  <A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind2<F, E, A>
 }
 
 /**
  * @since 2.0.0
  */
-export interface PartitionWithIndex2C<F extends URIS2, I, L> {
-  <A, B extends A>(fa: Type2<F, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Type2<F, L, A>,
-    Type2<F, L, B>
+export interface PartitionWithIndex2C<F extends URIS2, I, E> {
+  <A, B extends A>(fa: Kind2<F, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Kind2<F, E, A>,
+    Kind2<F, E, B>
   >
-  <A>(fa: Type2<F, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Type2<F, L, A>, Type2<F, L, A>>
+  <A>(fa: Kind2<F, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<Kind2<F, E, A>, Kind2<F, E, A>>
 }
 
 /**
  * @since 2.0.0
  */
-export interface FilterableWithIndex2C<F extends URIS2, I, L> extends FunctorWithIndex2C<F, I, L>, Filterable2C<F, L> {
-  readonly partitionMapWithIndex: <RL, RR, A>(
-    fa: Type2<F, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type2<F, L, RL>, Type2<F, L, RR>>
-  readonly partitionWithIndex: PartitionWithIndex2C<F, I, L>
-  readonly filterMapWithIndex: <A, B>(fa: Type2<F, L, A>, f: (i: I, a: A) => Option<B>) => Type2<F, L, B>
-  readonly filterWithIndex: FilterWithIndex2C<F, I, L>
+export interface FilterableWithIndex2C<F extends URIS2, I, E> extends FunctorWithIndex2C<F, I, E>, Filterable2C<F, E> {
+  readonly partitionMapWithIndex: <A, B, C>(
+    fa: Kind2<F, E, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind2<F, E, B>, Kind2<F, E, C>>
+  readonly partitionWithIndex: PartitionWithIndex2C<F, I, E>
+  readonly filterMapWithIndex: <A, B>(fa: Kind2<F, E, A>, f: (i: I, a: A) => Option<B>) => Kind2<F, E, B>
+  readonly filterWithIndex: FilterWithIndex2C<F, I, E>
 }
 
 /**
  * @since 2.0.0
  */
 export interface FilterWithIndex3<F extends URIS3, I> {
-  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type3<F, U, L, B>
-  <U, L, A>(fa: Type3<F, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type3<F, U, L, A>
+  <R, E, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind3<F, R, E, B>
+  <R, E, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind3<F, R, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PartitionWithIndex3<F extends URIS3, I> {
-  <U, L, A, B extends A>(fa: Type3<F, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Type3<F, U, L, A>,
-    Type3<F, U, L, B>
+  <R, E, A, B extends A>(fa: Kind3<F, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, B>
   >
-  <U, L, A>(fa: Type3<F, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
-    Type3<F, U, L, A>,
-    Type3<F, U, L, A>
+  <R, E, A>(fa: Kind3<F, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
+    Kind3<F, R, E, A>,
+    Kind3<F, R, E, A>
   >
 }
 
@@ -170,12 +170,12 @@ export interface PartitionWithIndex3<F extends URIS3, I> {
  * @since 2.0.0
  */
 export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithIndex3<F, I>, Filterable3<F> {
-  readonly partitionMapWithIndex: <RL, RR, U, L, A>(
-    fa: Type3<F, U, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type3<F, U, L, RL>, Type3<F, U, L, RR>>
+  readonly partitionMapWithIndex: <R, E, A, B, C>(
+    fa: Kind3<F, R, E, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind3<F, R, E, B>, Kind3<F, R, E, C>>
   readonly partitionWithIndex: PartitionWithIndex3<F, I>
-  readonly filterMapWithIndex: <U, L, A, B>(fa: Type3<F, U, L, A>, f: (i: I, a: A) => Option<B>) => Type3<F, U, L, B>
+  readonly filterMapWithIndex: <R, E, A, B>(fa: Kind3<F, R, E, A>, f: (i: I, a: A) => Option<B>) => Kind3<F, R, E, B>
   readonly filterWithIndex: FilterWithIndex3<F, I>
 }
 
@@ -183,27 +183,27 @@ export interface FilterableWithIndex3<F extends URIS3, I> extends FunctorWithInd
  * @since 2.0.0
  */
 export interface FilterWithIndex4<F extends URIS4, I> {
-  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Type4<
+  <S, R, E, A, B extends A>(fa: Kind4<F, S, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Kind4<
     F,
-    X,
-    U,
-    L,
+    S,
+    R,
+    E,
     B
   >
-  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Type4<F, X, U, L, A>
+  <S, R, E, A>(fa: Kind4<F, S, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Kind4<F, S, R, E, A>
 }
 
 /**
  * @since 2.0.0
  */
 export interface PartitionWithIndex4<F extends URIS4, I> {
-  <X, U, L, A, B extends A>(fa: Type4<F, X, U, L, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
-    Type4<F, X, U, L, A>,
-    Type4<F, X, U, L, B>
+  <S, R, E, A, B extends A>(fa: Kind4<F, S, R, E, A>, refinementWithIndex: RefinementWithIndex<I, A, B>): Separated<
+    Kind4<F, S, R, E, A>,
+    Kind4<F, S, R, E, B>
   >
-  <X, U, L, A>(fa: Type4<F, X, U, L, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
-    Type4<F, X, U, L, A>,
-    Type4<F, X, U, L, A>
+  <S, R, E, A>(fa: Kind4<F, S, R, E, A>, predicateWithIndex: PredicateWithIndex<I, A>): Separated<
+    Kind4<F, S, R, E, A>,
+    Kind4<F, S, R, E, A>
   >
 }
 
@@ -211,14 +211,14 @@ export interface PartitionWithIndex4<F extends URIS4, I> {
  * @since 2.0.0
  */
 export interface FilterableWithIndex4<F extends URIS4, I> extends FunctorWithIndex4<F, I>, Filterable4<F> {
-  readonly partitionMapWithIndex: <RL, RR, X, U, L, A>(
-    fa: Type4<F, X, U, L, A>,
-    f: (i: I, a: A) => Either<RL, RR>
-  ) => Separated<Type4<F, X, U, L, RL>, Type4<F, X, U, L, RR>>
+  readonly partitionMapWithIndex: <S, R, E, A, B, C>(
+    fa: Kind4<F, S, R, E, A>,
+    f: (i: I, a: A) => Either<B, C>
+  ) => Separated<Kind4<F, S, R, E, B>, Kind4<F, S, R, E, C>>
   readonly partitionWithIndex: PartitionWithIndex4<F, I>
-  readonly filterMapWithIndex: <X, U, L, A, B>(
-    fa: Type4<F, X, U, L, A>,
+  readonly filterMapWithIndex: <S, R, E, A, B>(
+    fa: Kind4<F, S, R, E, A>,
     f: (i: I, a: A) => Option<B>
-  ) => Type4<F, X, U, L, B>
+  ) => Kind4<F, S, R, E, B>
   readonly filterWithIndex: FilterWithIndex4<F, I>
 }
