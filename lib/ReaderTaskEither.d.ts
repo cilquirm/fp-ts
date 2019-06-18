@@ -1,23 +1,21 @@
 import { Alt3 } from './Alt';
 import { Bifunctor3 } from './Bifunctor';
 import { Either } from './Either';
-import { Predicate, Refinement } from './function';
 import { IO } from './IO';
 import { IOEither } from './IOEither';
 import { Monad3 } from './Monad';
-import { MonadIO3 } from './MonadIO';
 import { MonadTask3 } from './MonadTask';
+import { MonadThrow3 } from './MonadThrow';
 import { Monoid } from './Monoid';
-import { Option } from './Option';
 import { Reader } from './Reader';
+import { ReaderEither } from './ReaderEither';
 import { Semigroup } from './Semigroup';
 import { Task } from './Task';
 import * as TE from './TaskEither';
 import TaskEither = TE.TaskEither;
-import { ReaderEither } from './ReaderEither';
 declare module './HKT' {
-    interface URI2HKT3<U, L, A> {
-        ReaderTaskEither: ReaderTaskEither<U, L, A>;
+    interface URItoKind3<R, E, A> {
+        ReaderTaskEither: ReaderTaskEither<R, E, A>;
     }
 }
 /**
@@ -73,15 +71,7 @@ export declare function fromIOEither<R, E, A>(ma: IOEither<E, A>): ReaderTaskEit
 /**
  * @since 2.0.0
  */
-export declare function fromEither<R, E, A>(ma: Either<E, A>): ReaderTaskEither<R, E, A>;
-/**
- * @since 2.0.0
- */
 export declare function fromReaderEither<R, E, A>(ma: ReaderEither<R, E, A>): ReaderTaskEither<R, E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderTaskEither<R, E, A>;
 /**
  * @since 2.0.0
  */
@@ -90,11 +80,6 @@ export declare function rightIO<R, A>(ma: IO<A>): ReaderTaskEither<R, never, A>;
  * @since 2.0.0
  */
 export declare function leftIO<R, E>(me: IO<E>): ReaderTaskEither<R, E, never>;
-/**
- * @since 2.0.0
- */
-export declare function fromPredicate<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, B>;
-export declare function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>;
 /**
  * @since 2.0.0
  */
@@ -107,11 +92,6 @@ export declare function getOrElse<R, E, A>(onLeft: (e: E) => Reader<R, Task<A>>)
  * @since 2.0.0
  */
 export declare function orElse<R, E, A, M>(f: (e: E) => ReaderTaskEither<R, M, A>): (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, M, A>;
-/**
- * @since 2.0.0
- */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>;
 /**
  * @since 2.0.0
  */
@@ -143,11 +123,17 @@ export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderTaskEither
 /**
  * @since 2.0.0
  */
-export declare const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadIO3<URI> & MonadTask3<URI>;
+export declare const readerTaskEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadTask3<URI> & MonadThrow3<URI>;
 /**
  * Like `readerTaskEither` but `ap` is sequential
  * @since 2.0.0
  */
 export declare const readerTaskEitherSeq: typeof readerTaskEither;
-declare const alt: <U, L, A>(that: () => ReaderTaskEither<U, L, A>) => (fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, A>, ap: <U, L, A>(fa: ReaderTaskEither<U, L, A>) => <B>(fab: ReaderTaskEither<U, L, (a: A) => B>) => ReaderTaskEither<U, L, B>, apFirst: <U, L, B>(fb: ReaderTaskEither<U, L, B>) => <A>(fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, A>, apSecond: <U, L, B>(fb: ReaderTaskEither<U, L, B>) => <A>(fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => <U>(fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, M, B>, chain: <U, L, A, B>(f: (a: A) => ReaderTaskEither<U, L, B>) => (ma: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, B>, chainFirst: <U, L, A, B>(f: (a: A) => ReaderTaskEither<U, L, B>) => (ma: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, A>, flatten: <U, L, A>(mma: ReaderTaskEither<U, L, ReaderTaskEither<U, L, A>>) => ReaderTaskEither<U, L, A>, map: <A, B>(f: (a: A) => B) => <U, L>(fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => <U>(fa: ReaderTaskEither<U, L, A>) => ReaderTaskEither<U, M, A>;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft };
+declare const alt: <R, E, A>(that: () => ReaderTaskEither<R, E, A>) => (fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>, ap: <R, E, A>(fa: ReaderTaskEither<R, E, A>) => <B>(fab: ReaderTaskEither<R, E, (a: A) => B>) => ReaderTaskEither<R, E, B>, apFirst: <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>, apSecond: <R, E, B>(fb: ReaderTaskEither<R, E, B>) => <A>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>, bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, B>, chain: <R, E, A, B>(f: (a: A) => ReaderTaskEither<R, E, B>) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>, chainFirst: <R, E, A, B>(f: (a: A) => ReaderTaskEither<R, E, B>) => (ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>, flatten: <R, E, A>(mma: ReaderTaskEither<R, E, ReaderTaskEither<R, E, A>>) => ReaderTaskEither<R, E, A>, map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => <R>(fa: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, G, A>, fromOption: <E>(onNone: () => E) => <R, A>(ma: import("./Option").Option<A>) => ReaderTaskEither<R, E, A>, fromEither: <R, E, A>(ma: Either<E, A>) => ReaderTaskEither<R, E, A>, fromPredicate: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderTaskEither<U, E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderTaskEither<R, E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderTaskEither<R, E, A>) => ReaderTaskEither<R, E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft, fromOption, fromEither, fromPredicate, filterOrElse };

@@ -9,8 +9,8 @@ import { Semigroup } from './Semigroup';
 import { Show } from './Show';
 import { Traversable2 } from './Traversable';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        These: These<L, A>;
+    interface URItoKind2<E, A> {
+        These: These<E, A>;
     }
 }
 /**
@@ -48,7 +48,7 @@ export declare function both<E, A>(left: E, right: A): These<E, A>;
 /**
  * @since 2.0.0
  */
-export declare function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R, onBoth: (e: E, a: A) => R): (fa: These<E, A>) => R;
+export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B, onBoth: (e: E, a: A) => B): (fa: These<E, A>) => B;
 /**
  * @since 2.0.0
  */
@@ -193,5 +193,5 @@ export declare function fromOptions<E, A>(fe: Option<E>, fa: Option<A>): Option<
  * @since 2.0.0
  */
 export declare const these: Functor2<URI> & Bifunctor2<URI> & Foldable2<URI> & Traversable2<URI>;
-declare const bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: These<L, A>) => These<M, B>, foldMap: <M>(M: import("./Monoid").Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: These<L, A>) => M, map: <A, B>(f: (a: A) => B) => <L>(fa: These<L, A>) => These<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: These<L, A>) => These<M, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: These<L, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: These<L, A>) => B;
+declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: These<E, A>) => These<G, B>, foldMap: <M>(M: import("./Monoid").Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: These<E, A>) => M, map: <A, B>(f: (a: A) => B) => <E>(fa: These<E, A>) => These<E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => (fa: These<E, A>) => These<G, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: These<E, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: These<E, A>) => B;
 export { bimap, foldMap, map, mapLeft, reduce, reduceRight };

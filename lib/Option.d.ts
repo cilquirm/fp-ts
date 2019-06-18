@@ -91,13 +91,13 @@ import { Lazy, Predicate, Refinement } from './function';
 import { Monad1 } from './Monad';
 import { Monoid } from './Monoid';
 import { Ord } from './Ord';
-import { Plus1 } from './Plus';
 import { Semigroup } from './Semigroup';
 import { Show } from './Show';
 import { Traversable1 } from './Traversable';
 import { Witherable1 } from './Witherable';
+import { MonadThrow1 } from './MonadThrow';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Option: Option<A>;
     }
 }
@@ -149,7 +149,7 @@ export declare function isNone<A>(fa: Option<A>): fa is None;
 /**
  * @since 2.0.0
  */
-export declare function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: Option<A>) => R;
+export declare function fold<A, B>(onNone: () => B, onSome: (a: A) => B): (ma: Option<A>) => B;
 /**
  * Constructs a new `Option` from a nullable type. If the value is `null` or `undefined`, returns `None`, otherwise
  * returns the value wrapped in a `Some`
@@ -164,10 +164,6 @@ export declare function fold<A, R>(onNone: () => R, onSome: (a: A) => R): (ma: O
  * @since 2.0.0
  */
 export declare function fromNullable<A>(a: A | null | undefined): Option<A>;
-/**
- * @since 2.0.0
- */
-export declare function fromEither<L, A>(ma: Either<L, A>): Option<A>;
 /**
  * @since 2.0.0
  */
@@ -224,13 +220,13 @@ export declare function tryCatch<A>(f: Lazy<A>): Option<A>;
  *
  * @since 2.0.0
  */
-export declare function getLeft<L, A>(ma: Either<L, A>): Option<L>;
+export declare function getLeft<E, A>(ma: Either<E, A>): Option<E>;
 /**
  * Returns an `A` value if possible
  *
  * @since 2.0.0
  */
-export declare function getRight<L, A>(ma: Either<L, A>): Option<A>;
+export declare function getRight<E, A>(ma: Either<E, A>): Option<A>;
 /**
  * Returns a refinement from a prism.
  * This function ensures that a custom type guard definition is type-safe.
@@ -392,12 +388,12 @@ export declare function getMonoid<A>(S: Semigroup<A>): Monoid<Option<A>>;
 /**
  * @since 2.0.0
  */
-export declare const option: Monad1<URI> & Foldable1<URI> & Plus1<URI> & Traversable1<URI> & Alternative1<URI> & Extend1<URI> & Compactable1<URI> & Filterable1<URI> & Witherable1<URI>;
+export declare const option: Monad1<URI> & Foldable1<URI> & Traversable1<URI> & Alternative1<URI> & Extend1<URI> & Compactable1<URI> & Filterable1<URI> & Witherable1<URI> & MonadThrow1<URI>;
 declare const alt: <A>(that: () => Option<A>) => (fa: Option<A>) => Option<A>, ap: <A>(fa: Option<A>) => <B>(fab: Option<(a: A) => B>) => Option<B>, apFirst: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<A>, apSecond: <B>(fb: Option<B>) => <A>(fa: Option<A>) => Option<B>, chain: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<B>, chainFirst: <A, B>(f: (a: A) => Option<B>) => (ma: Option<A>) => Option<A>, duplicate: <A>(ma: Option<A>) => Option<Option<A>>, extend: <A, B>(f: (fa: Option<A>) => B) => (ma: Option<A>) => Option<B>, filter: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Option<B>;
     <A>(predicate: Predicate<A>): (fa: Option<A>) => Option<A>;
 }, filterMap: <A, B>(f: (a: A) => Option<B>) => (fa: Option<A>) => Option<B>, flatten: <A>(mma: Option<Option<A>>) => Option<A>, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: Option<A>) => M, map: <A, B>(f: (a: A) => B) => (fa: Option<A>) => Option<B>, partition: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: Option<A>) => Separated<Option<A>, Option<B>>;
     <A>(predicate: Predicate<A>): (fa: Option<A>) => Separated<Option<A>, Option<A>>;
-}, partitionMap: <A, RL, RR>(f: (a: A) => Either<RL, RR>) => (fa: Option<A>) => Separated<Option<RL>, Option<RR>>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B, compact: <A>(fa: Option<Option<A>>) => Option<A>, separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>;
-export { alt, ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, filter, filterMap, flatten, foldMap, map, partition, partitionMap, reduce, reduceRight, compact, separate };
+}, partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: Option<A>) => Separated<Option<B>, Option<C>>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: Option<A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: Option<A>) => B, compact: <A>(fa: Option<Option<A>>) => Option<A>, separate: <A, B>(fa: Option<Either<A, B>>) => Separated<Option<A>, Option<B>>, fromEither: <E, A>(ma: Either<E, A>) => Option<A>;
+export { alt, ap, apFirst, apSecond, chain, chainFirst, duplicate, extend, filter, filterMap, flatten, foldMap, map, partition, partitionMap, reduce, reduceRight, compact, separate, fromEither };

@@ -14,8 +14,8 @@ import { Semigroup } from './Semigroup';
 import { Semigroupoid2 } from './Semigroupoid';
 import { Traversable2 } from './Traversable';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Tuple: [A, L];
+    interface URItoKind2<E, A> {
+        Tuple: [A, E];
     }
 }
 /**
@@ -62,5 +62,5 @@ export declare function getChainRec<S>(M: Monoid<S>): ChainRec2C<URI, S>;
  * @since 2.0.0
  */
 export declare const tuple: Semigroupoid2<URI> & Bifunctor2<URI> & Comonad2<URI> & Foldable2<URI> & Traversable2<URI>;
-declare const bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: [A, L]) => [B, M], compose: <L, A>(la: [A, L]) => <B>(ab: [B, A]) => [B, L], duplicate: <L, A>(ma: [A, L]) => [[A, L], L], extend: <L, A, B>(f: (fa: [A, L]) => B) => (ma: [A, L]) => [B, L], foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: [A, L]) => M, map: <A, B>(f: (a: A) => B) => <L>(fa: [A, L]) => [B, L], mapLeft: <L, A, M>(f: (l: L) => M) => (fa: [A, L]) => [A, M], reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: [A, L]) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: [A, L]) => B;
+declare const bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: [A, E]) => [B, G], compose: <E, A>(la: [A, E]) => <B>(ab: [B, A]) => [B, E], duplicate: <E, A>(ma: [A, E]) => [[A, E], E], extend: <E, A, B>(f: (fa: [A, E]) => B) => (ma: [A, E]) => [B, E], foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: [A, E]) => M, map: <A, B>(f: (a: A) => B) => <E>(fa: [A, E]) => [B, E], mapLeft: <E, G, A>(f: (e: E) => G) => (fa: [A, E]) => [A, G], reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: [A, E]) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: [A, E]) => B;
 export { bimap, compose, duplicate, extend, foldMap, map, mapLeft, reduce, reduceRight };

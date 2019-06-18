@@ -2,8 +2,8 @@ import { Comonad2C } from './Comonad';
 import { Monoid } from './Monoid';
 import { Functor2 } from './Functor';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Traced: Traced<L, A>;
+    interface URItoKind2<E, A> {
+        Traced: Traced<E, A>;
     }
 }
 /**
@@ -52,5 +52,5 @@ export declare function getComonad<P>(monoid: Monoid<P>): Comonad2C<URI, P>;
  * @since 2.0.0
  */
 export declare const traced: Functor2<URI>;
-declare const map: <A, B>(f: (a: A) => B) => <L>(fa: Traced<L, A>) => Traced<L, B>;
+declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Traced<E, A>) => Traced<E, B>;
 export { map };

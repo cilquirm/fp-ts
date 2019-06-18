@@ -78,7 +78,7 @@ export declare function intersection<A>(E: Eq<A>): (set: Set<A>, y: Set<A>) => S
 /**
  * @since 2.0.0
  */
-export declare function partitionMap<L, R>(SL: Eq<L>, SR: Eq<R>): <A>(f: (a: A) => Either<L, R>) => (set: Set<A>) => Separated<Set<L>, Set<R>>;
+export declare function partitionMap<B, C>(EB: Eq<B>, EC: Eq<C>): <A>(f: (a: A) => Either<B, C>) => (set: Set<A>) => Separated<Set<B>, Set<C>>;
 /**
  * Form the set difference (`x` - `y`)
  *
@@ -139,7 +139,7 @@ export declare function compact<A>(E: Eq<A>): (fa: Set<Option<A>>) => Set<A>;
 /**
  * @since 2.0.0
  */
-export declare function separate<L, R>(EL: Eq<L>, ER: Eq<R>): (fa: Set<Either<L, R>>) => Separated<Set<L>, Set<R>>;
+export declare function separate<E, A>(EE: Eq<E>, EA: Eq<A>): (fa: Set<Either<E, A>>) => Separated<Set<E>, Set<A>>;
 /**
  * @since 2.0.0
  */

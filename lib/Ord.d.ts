@@ -12,6 +12,20 @@
 import { Ordering } from './Ordering';
 import { Semigroup } from './Semigroup';
 import { Eq } from './Eq';
+import { Contravariant1 } from './Contravariant';
+declare module './HKT' {
+    interface URItoKind<A> {
+        Ord: Ord<A>;
+    }
+}
+/**
+ * @since 2.0.0
+ */
+export declare const URI = "Ord";
+/**
+ * @since 2.0.0
+ */
+export declare type URI = typeof URI;
 /**
  * @since 2.0.0
  */
@@ -30,10 +44,6 @@ export declare const ordNumber: Ord<number>;
  * @since 2.0.0
  */
 export declare const ordBoolean: Ord<boolean>;
-/**
- * @since 2.0.0
- */
-export declare const ordDate: Ord<Date>;
 /**
  * Test whether one value is _strictly less than_ another
  *
@@ -89,10 +99,6 @@ export declare function fromCompare<A>(compare: (x: A, y: A) => Ordering): Ord<A
 /**
  * @since 2.0.0
  */
-export declare function contramap<A, B>(O: Ord<A>, f: (b: B) => A): Ord<B>;
-/**
- * @since 2.0.0
- */
 export declare function getSemigroup<A = never>(): Semigroup<Ord<A>>;
 /**
  * Given a tuple of `Ord`s returns an `Ord` for the tuple
@@ -114,3 +120,13 @@ export declare function getTupleOrd<T extends Array<Ord<any>>>(...ords: T): Ord<
  * @since 2.0.0
  */
 export declare function getDualOrd<A>(O: Ord<A>): Ord<A>;
+/**
+ * @since 2.0.0
+ */
+export declare const ord: Contravariant1<URI>;
+declare const contramap: <A, B>(f: (b: B) => A) => (fa: Ord<A>) => Ord<B>;
+export { contramap };
+/**
+ * @since 2.0.0
+ */
+export declare const ordDate: Ord<Date>;

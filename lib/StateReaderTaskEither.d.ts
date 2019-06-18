@@ -1,18 +1,18 @@
-import * as RTE from './ReaderTaskEither';
-import { Monad4 } from './Monad';
 import { Either } from './Either';
+import { IO } from './IO';
+import { IOEither } from './IOEither';
+import { Monad4 } from './Monad';
+import { Reader } from './Reader';
+import { ReaderEither } from './ReaderEither';
+import * as RTE from './ReaderTaskEither';
 import { State } from './State';
 import { Task } from './Task';
 import { TaskEither } from './TaskEither';
-import { Reader } from './Reader';
-import { IOEither } from './IOEither';
-import { Option } from './Option';
-import { IO } from './IO';
 import ReaderTaskEither = RTE.ReaderTaskEither;
-import { ReaderEither } from './ReaderEither';
+import { MonadThrow4 } from './MonadThrow';
 declare module './HKT' {
-    interface URI2HKT4<X, U, L, A> {
-        StateReaderTaskEither: StateReaderTaskEither<X, U, L, A>;
+    interface URItoKind4<S, R, E, A> {
+        StateReaderTaskEither: StateReaderTaskEither<S, R, E, A>;
     }
 }
 /**
@@ -80,15 +80,7 @@ export declare function fromIOEither<S, R, E, A>(ma: IOEither<E, A>): StateReade
 /**
  * @since 2.0.0
  */
-export declare function fromEither<S, R, E, A>(ma: Either<E, A>): StateReaderTaskEither<S, R, E, A>;
-/**
- * @since 2.0.0
- */
 export declare function fromReaderEither<S, R, E, A>(ma: ReaderEither<R, E, A>): StateReaderTaskEither<S, R, E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <S, R, A>(ma: Option<A>) => StateReaderTaskEither<S, R, E, A>;
 /**
  * @since 2.0.0
  */
@@ -136,11 +128,11 @@ export declare const gets: <S, R, A>(f: (s: S) => A) => StateReaderTaskEither<S,
 /**
  * @since 2.0.0
  */
-export declare const stateReaderTaskEither: Monad4<URI>;
+export declare const stateReaderTaskEither: Monad4<URI> & MonadThrow4<URI>;
 /**
  * Like `stateReaderTaskEither` but `ap` is sequential
  * @since 2.0.0
  */
 export declare const stateReaderTaskEitherSeq: typeof stateReaderTaskEither;
-declare const ap: <X, U, L, A>(fa: StateReaderTaskEither<X, U, L, A>) => <B>(fab: StateReaderTaskEither<X, U, L, (a: A) => B>) => StateReaderTaskEither<X, U, L, B>, apFirst: <X, U, L, B>(fb: StateReaderTaskEither<X, U, L, B>) => <A>(fa: StateReaderTaskEither<X, U, L, A>) => StateReaderTaskEither<X, U, L, A>, apSecond: <X, U, L, B>(fb: StateReaderTaskEither<X, U, L, B>) => <A>(fa: StateReaderTaskEither<X, U, L, A>) => StateReaderTaskEither<X, U, L, B>, chain: <X, U, L, A, B>(f: (a: A) => StateReaderTaskEither<X, U, L, B>) => (ma: StateReaderTaskEither<X, U, L, A>) => StateReaderTaskEither<X, U, L, B>, chainFirst: <X, U, L, A, B>(f: (a: A) => StateReaderTaskEither<X, U, L, B>) => (ma: StateReaderTaskEither<X, U, L, A>) => StateReaderTaskEither<X, U, L, A>, flatten: <X, U, L, A>(mma: StateReaderTaskEither<X, U, L, StateReaderTaskEither<X, U, L, A>>) => StateReaderTaskEither<X, U, L, A>, map: <A, B>(f: (a: A) => B) => <X, U, L>(fa: StateReaderTaskEither<X, U, L, A>) => StateReaderTaskEither<X, U, L, B>;
-export { ap, apFirst, apSecond, chain, chainFirst, flatten, map };
+declare const ap: <S, R, E, A>(fa: StateReaderTaskEither<S, R, E, A>) => <B>(fab: StateReaderTaskEither<S, R, E, (a: A) => B>) => StateReaderTaskEither<S, R, E, B>, apFirst: <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>, apSecond: <S, R, E, B>(fb: StateReaderTaskEither<S, R, E, B>) => <A>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>, chain: <S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>, chainFirst: <S, R, E, A, B>(f: (a: A) => StateReaderTaskEither<S, R, E, B>) => (ma: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, A>, flatten: <S, R, E, A>(mma: StateReaderTaskEither<S, R, E, StateReaderTaskEither<S, R, E, A>>) => StateReaderTaskEither<S, R, E, A>, map: <A, B>(f: (a: A) => B) => <S, R, E>(fa: StateReaderTaskEither<S, R, E, A>) => StateReaderTaskEither<S, R, E, B>, fromEither: <S, R, E, A>(ma: Either<E, A>) => StateReaderTaskEither<S, R, E, A>, fromOption: <E>(onNone: () => E) => <S, R, A>(ma: import("./Option").Option<A>) => StateReaderTaskEither<S, R, E, A>;
+export { ap, apFirst, apSecond, chain, chainFirst, flatten, map, fromEither, fromOption };

@@ -2,8 +2,8 @@ import { Functor2 } from './Functor';
 import { Monad2C } from './Monad';
 import { Monoid } from './Monoid';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Writer: Writer<L, A>;
+    interface URItoKind2<E, A> {
+        Writer: Writer<E, A>;
     }
 }
 /**
@@ -66,5 +66,5 @@ export declare function getMonad<W>(M: Monoid<W>): Monad2C<URI, W>;
  * @since 2.0.0
  */
 export declare const writer: Functor2<URI>;
-declare const map: <A, B>(f: (a: A) => B) => <L>(fa: Writer<L, A>) => Writer<L, B>;
+declare const map: <A, B>(f: (a: A) => B) => <E>(fa: Writer<E, A>) => Writer<E, B>;
 export { map };

@@ -6,8 +6,8 @@ import { Profunctor2 } from './Profunctor';
 import { Semigroup } from './Semigroup';
 import { Strong2 } from './Strong';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Reader: Reader<L, A>;
+    interface URItoKind2<E, A> {
+        Reader: Reader<E, A>;
     }
 }
 /**
@@ -58,5 +58,5 @@ export declare const of: <A>(a: A) => Reader<unknown, A>;
  * @since 2.0.0
  */
 export declare const reader: Monad2<URI> & Profunctor2<URI> & Category2<URI> & Strong2<URI> & Choice2<URI>;
-declare const ap: <L, A>(fa: Reader<L, A>) => <B>(fab: Reader<L, (a: A) => B>) => Reader<L, B>, apFirst: <L, B>(fb: Reader<L, B>) => <A>(fa: Reader<L, A>) => Reader<L, A>, apSecond: <L, B>(fb: Reader<L, B>) => <A>(fa: Reader<L, A>) => Reader<L, B>, chain: <L, A, B>(f: (a: A) => Reader<L, B>) => (ma: Reader<L, A>) => Reader<L, B>, chainFirst: <L, A, B>(f: (a: A) => Reader<L, B>) => (ma: Reader<L, A>) => Reader<L, A>, compose: <L, A>(la: Reader<L, A>) => <B>(ab: Reader<A, B>) => Reader<L, B>, flatten: <L, A>(mma: Reader<L, Reader<L, A>>) => Reader<L, A>, map: <A, B>(f: (a: A) => B) => <L>(fa: Reader<L, A>) => Reader<L, B>, promap: <A, B, C, D>(f: (a: A) => B, g: (c: C) => D) => (fbc: Reader<B, C>) => Reader<A, D>;
+declare const ap: <E, A>(fa: Reader<E, A>) => <B>(fab: Reader<E, (a: A) => B>) => Reader<E, B>, apFirst: <E, B>(fb: Reader<E, B>) => <A>(fa: Reader<E, A>) => Reader<E, A>, apSecond: <e, B>(fb: Reader<e, B>) => <A>(fa: Reader<e, A>) => Reader<e, B>, chain: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, B>, chainFirst: <E, A, B>(f: (a: A) => Reader<E, B>) => (ma: Reader<E, A>) => Reader<E, A>, compose: <E, A>(la: Reader<E, A>) => <B>(ab: Reader<A, B>) => Reader<E, B>, flatten: <E, A>(mma: Reader<E, Reader<E, A>>) => Reader<E, A>, map: <A, B>(f: (a: A) => B) => <E>(fa: Reader<E, A>) => Reader<E, B>, promap: <E, A, D, B>(f: (d: D) => E, g: (a: A) => B) => (fbc: Reader<E, A>) => Reader<D, B>;
 export { ap, apFirst, apSecond, chain, chainFirst, compose, flatten, map, promap };

@@ -3,7 +3,7 @@ import { MonadIO1 } from './MonadIO';
 import { Monoid } from './Monoid';
 import { Semigroup } from './Semigroup';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         IO: IO<A>;
     }
 }

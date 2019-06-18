@@ -5,17 +5,17 @@
 import { Alt2, Alt2C } from './Alt';
 import { Bifunctor2 } from './Bifunctor';
 import * as E from './Either';
-import { Lazy, Predicate, Refinement } from './function';
+import { Lazy } from './function';
 import { IO } from './IO';
 import { Monad2, Monad2C } from './Monad';
 import { MonadIO2 } from './MonadIO';
+import { MonadThrow2 } from './MonadThrow';
 import { Monoid } from './Monoid';
-import { Option } from './Option';
 import { Semigroup } from './Semigroup';
 import Either = E.Either;
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        IOEither: IOEither<L, A>;
+    interface URItoKind2<E, A> {
+        IOEither: IOEither<E, A>;
     }
 }
 /**
@@ -34,7 +34,7 @@ export interface IOEither<E, A> extends IO<Either<E, A>> {
 /**
  * @since 2.0.0
  */
-export declare const left: <L>(l: L) => IOEither<L, never>;
+export declare const left: <E>(l: E) => IOEither<E, never>;
 /**
  * @since 2.0.0
  */
@@ -50,29 +50,11 @@ export declare const leftIO: <E>(me: IO<E>) => IOEither<E, never>;
 /**
  * @since 2.0.0
  */
-export declare const fromEither: <E, A>(ma: Either<E, A>) => IOEither<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => IOEither<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromPredicate<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>;
-export declare function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fold<E, A, R>(onLeft: (e: E) => IO<R>, onRight: (a: A) => IO<R>): (ma: IOEither<E, A>) => IO<R>;
+export declare function fold<E, A, B>(onLeft: (e: E) => IO<B>, onRight: (a: A) => IO<B>): (ma: IOEither<E, A>) => IO<B>;
 /**
  * @since 2.0.0
  */
 export declare function getOrElse<E, A>(f: (e: E) => IO<A>): (ma: IOEither<E, A>) => IO<A>;
-/**
- * @since 2.0.0
- */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, zeonFalsero: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>;
 /**
  * @since 2.0.0
  */
@@ -114,6 +96,12 @@ export declare function getIOValidation<E>(S: Semigroup<E>): Monad2C<URI, E> & A
 /**
  * @since 2.0.0
  */
-export declare const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI>;
-declare const alt: <L, A>(that: () => IOEither<L, A>) => (fa: IOEither<L, A>) => IOEither<L, A>, ap: <L, A>(fa: IOEither<L, A>) => <B>(fab: IOEither<L, (a: A) => B>) => IOEither<L, B>, apFirst: <L, B>(fb: IOEither<L, B>) => <A>(fa: IOEither<L, A>) => IOEither<L, A>, apSecond: <L, B>(fb: IOEither<L, B>) => <A>(fa: IOEither<L, A>) => IOEither<L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: IOEither<L, A>) => IOEither<M, B>, chain: <L, A, B>(f: (a: A) => IOEither<L, B>) => (ma: IOEither<L, A>) => IOEither<L, B>, chainFirst: <L, A, B>(f: (a: A) => IOEither<L, B>) => (ma: IOEither<L, A>) => IOEither<L, A>, flatten: <L, A>(mma: IOEither<L, IOEither<L, A>>) => IOEither<L, A>, map: <A, B>(f: (a: A) => B) => <L>(fa: IOEither<L, A>) => IOEither<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: IOEither<L, A>) => IOEither<M, A>;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft };
+export declare const ioEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadThrow2<URI>;
+declare const alt: <E, A>(that: () => IOEither<E, A>) => (fa: IOEither<E, A>) => IOEither<E, A>, ap: <E, A>(fa: IOEither<E, A>) => <B>(fab: IOEither<E, (a: A) => B>) => IOEither<E, B>, apFirst: <E, B>(fb: IOEither<E, B>) => <A>(fa: IOEither<E, A>) => IOEither<E, A>, apSecond: <e, B>(fb: IOEither<e, B>) => <A>(fa: IOEither<e, A>) => IOEither<e, B>, bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: IOEither<E, A>) => IOEither<G, B>, chain: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, B>, chainFirst: <E, A, B>(f: (a: A) => IOEither<E, B>) => (ma: IOEither<E, A>) => IOEither<E, A>, flatten: <E, A>(mma: IOEither<E, IOEither<E, A>>) => IOEither<E, A>, map: <A, B>(f: (a: A) => B) => <E>(fa: IOEither<E, A>) => IOEither<E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => (fa: IOEither<E, A>) => IOEither<G, A>, fromEither: <E, A>(ma: E.Either<E, A>) => IOEither<E, A>, fromOption: <E>(onNone: () => E) => <A>(ma: import("./Option").Option<A>) => IOEither<E, A>, fromPredicate: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (a: A) => IOEither<E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): (a: A) => IOEither<E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): (ma: IOEither<E, A>) => IOEither<E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft, fromEither, fromOption, fromPredicate, filterOrElse };

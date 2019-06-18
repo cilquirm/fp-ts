@@ -13,7 +13,7 @@ import { Eq } from './Eq';
 import { Predicate, Refinement } from './function';
 import { Show } from './Show';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         NonEmptyArray: NonEmptyArray<A>;
     }
 }

@@ -1,7 +1,7 @@
 import { Monad2 } from './Monad';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        State: State<L, A>;
+    interface URItoKind2<E, A> {
+        State: State<E, A>;
     }
 }
 /**
@@ -62,5 +62,5 @@ export declare const of: <S, A>(a: A) => State<S, A>;
  * @since 2.0.0
  */
 export declare const state: Monad2<URI>;
-declare const ap: <L, A>(fa: State<L, A>) => <B>(fab: State<L, (a: A) => B>) => State<L, B>, apFirst: <L, B>(fb: State<L, B>) => <A>(fa: State<L, A>) => State<L, A>, apSecond: <L, B>(fb: State<L, B>) => <A>(fa: State<L, A>) => State<L, B>, chain: <L, A, B>(f: (a: A) => State<L, B>) => (ma: State<L, A>) => State<L, B>, chainFirst: <L, A, B>(f: (a: A) => State<L, B>) => (ma: State<L, A>) => State<L, A>, flatten: <L, A>(mma: State<L, State<L, A>>) => State<L, A>, map: <A, B>(f: (a: A) => B) => <L>(fa: State<L, A>) => State<L, B>;
+declare const ap: <E, A>(fa: State<E, A>) => <B>(fab: State<E, (a: A) => B>) => State<E, B>, apFirst: <E, B>(fb: State<E, B>) => <A>(fa: State<E, A>) => State<E, A>, apSecond: <e, B>(fb: State<e, B>) => <A>(fa: State<e, A>) => State<e, B>, chain: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, B>, chainFirst: <E, A, B>(f: (a: A) => State<E, B>) => (ma: State<E, A>) => State<E, A>, flatten: <E, A>(mma: State<E, State<E, A>>) => State<E, A>, map: <A, B>(f: (a: A) => B) => <E>(fa: State<E, A>) => State<E, B>;
 export { ap, apFirst, apSecond, chain, chainFirst, flatten, map };

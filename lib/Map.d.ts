@@ -5,7 +5,7 @@ import { Filterable2 } from './Filterable';
 import { FilterableWithIndex2C } from './FilterableWithIndex';
 import { Foldable, Foldable1, Foldable2, Foldable3 } from './Foldable';
 import { Predicate } from './function';
-import { HKT, Type, Type2, Type3, URIS, URIS2, URIS3 } from './HKT';
+import { HKT, Kind, Kind2, Kind3, URIS, URIS2, URIS3 } from './HKT';
 import { Magma } from './Magma';
 import { Monoid } from './Monoid';
 import { Option } from './Option';
@@ -16,8 +16,8 @@ import { TraversableWithIndex2C } from './TraversableWithIndex';
 import { Unfoldable, Unfoldable1 } from './Unfoldable';
 import { Witherable2C } from './Witherable';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Map: Map<L, A>;
+    interface URItoKind2<E, A> {
+        Map: Map<E, A>;
     }
 }
 /**
@@ -83,7 +83,7 @@ export declare function toArray<K>(O: Ord<K>): <A>(m: Map<K, A>) => Array<[K, A]
  *
  * @since 2.0.0
  */
-export declare function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Type<F, [K, A]>;
+export declare function toUnfoldable<K, F extends URIS>(O: Ord<K>, U: Unfoldable1<F>): <A>(d: Map<K, A>) => Kind<F, [K, A]>;
 export declare function toUnfoldable<K, F>(O: Ord<K>, U: Unfoldable<F>): <A>(d: Map<K, A>) => HKT<F, [K, A]>;
 /**
  * Insert or replace a key/value pair in a map
@@ -156,9 +156,9 @@ export declare function singleton<K, A>(k: K, a: A): Map<K, A>;
  *
  * @since 2.0.0
  */
-export declare function fromFoldable<F extends URIS3, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable3<F>): <U, L>(fka: Type3<F, U, L, [K, A]>) => Map<K, A>;
-export declare function fromFoldable<F extends URIS2, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable2<F>): <L>(fka: Type2<F, L, [K, A]>) => Map<K, A>;
-export declare function fromFoldable<F extends URIS, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable1<F>): (fka: Type<F, [K, A]>) => Map<K, A>;
+export declare function fromFoldable<F extends URIS3, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable3<F>): <R, E>(fka: Kind3<F, R, E, [K, A]>) => Map<K, A>;
+export declare function fromFoldable<F extends URIS2, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable2<F>): <E>(fka: Kind2<F, E, [K, A]>) => Map<K, A>;
+export declare function fromFoldable<F extends URIS, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable1<F>): (fka: Kind<F, [K, A]>) => Map<K, A>;
 export declare function fromFoldable<F, K, A>(E: Eq<K>, M: Magma<A>, F: Foldable<F>): (fka: HKT<F, [K, A]>) => Map<K, A>;
 /**
  * @since 2.0.0
@@ -173,10 +173,10 @@ export declare function getWitherable<K>(O: Ord<K>): Witherable2C<URI, K> & Trav
  */
 export declare const map_: Filterable2<URI>;
 declare const filter: {
-    <A, B extends A>(refinement: import("./function").Refinement<A, B>): <L>(fa: Map<L, A>) => Map<L, B>;
-    <A>(predicate: Predicate<A>): <L>(fa: Map<L, A>) => Map<L, A>;
-}, filterMap: <A, B>(f: (a: A) => Option<B>) => <L>(fa: Map<L, A>) => Map<L, B>, map: <A, B>(f: (a: A) => B) => <L>(fa: Map<L, A>) => Map<L, B>, partition: {
-    <A, B extends A>(refinement: import("./function").Refinement<A, B>): <L>(fa: Map<L, A>) => Separated<Map<L, A>, Map<L, B>>;
-    <A>(predicate: Predicate<A>): <L>(fa: Map<L, A>) => Separated<Map<L, A>, Map<L, A>>;
-}, partitionMap: <A, RL, RR>(f: (a: A) => Either<RL, RR>) => <L>(fa: Map<L, A>) => Separated<Map<L, RL>, Map<L, RR>>, compact: <L, A>(fa: Map<L, Option<A>>) => Map<L, A>, separate: <L, A, B>(fa: Map<L, Either<A, B>>) => Separated<Map<L, A>, Map<L, B>>;
+    <A, B extends A>(refinement: import("./function").Refinement<A, B>): <E>(fa: Map<E, A>) => Map<E, B>;
+    <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Map<E, A>;
+}, filterMap: <A, B>(f: (a: A) => Option<B>) => <E>(fa: Map<E, A>) => Map<E, B>, map: <A, B>(f: (a: A) => B) => <E>(fa: Map<E, A>) => Map<E, B>, partition: {
+    <A, B extends A>(refinement: import("./function").Refinement<A, B>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, B>>;
+    <A>(predicate: Predicate<A>): <E>(fa: Map<E, A>) => Separated<Map<E, A>, Map<E, A>>;
+}, partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => <E>(fa: Map<E, A>) => Separated<Map<E, B>, Map<E, C>>, compact: <E, A>(fa: Map<E, Option<A>>) => Map<E, A>, separate: <E, A, B>(fa: Map<E, Either<A, B>>) => Separated<Map<E, A>, Map<E, B>>;
 export { filter, filterMap, map, partition, partitionMap, compact, separate };

@@ -1,16 +1,15 @@
 import { Alt3 } from './Alt';
 import { Bifunctor3 } from './Bifunctor';
 import * as E from './Either';
-import { Predicate, Refinement } from './function';
 import { Monad3 } from './Monad';
+import { MonadThrow3 } from './MonadThrow';
 import { Monoid } from './Monoid';
-import { Option } from './Option';
 import { Reader } from './Reader';
 import { Semigroup } from './Semigroup';
 import Either = E.Either;
 declare module './HKT' {
-    interface URI2HKT3<U, L, A> {
-        ReaderEither: ReaderEither<U, L, A>;
+    interface URItoKind3<R, E, A> {
+        ReaderEither: ReaderEither<R, E, A>;
     }
 }
 /**
@@ -45,19 +44,6 @@ export declare const leftReader: <R, E>(me: Reader<R, E>) => ReaderEither<R, E, 
 /**
  * @since 2.0.0
  */
-export declare const fromEither: <R, E, A>(ma: Either<E, A>) => ReaderEither<R, E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <R, A>(ma: Option<A>) => ReaderEither<R, E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromPredicate<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, B>;
-export declare function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>;
-/**
- * @since 2.0.0
- */
 export declare function fold<R, E, A, B>(onLeft: (e: E) => Reader<R, B>, onRight: (a: A) => Reader<R, B>): (ma: ReaderEither<R, E, A>) => Reader<R, B>;
 /**
  * @since 2.0.0
@@ -67,11 +53,6 @@ export declare function getOrElse<R, E, A>(f: (e: E) => Reader<R, A>): (ma: Read
  * @since 2.0.0
  */
 export declare function orElse<R, E, A, M>(f: (e: E) => ReaderEither<R, M, A>): (ma: ReaderEither<R, E, A>) => ReaderEither<R, M, A>;
-/**
- * @since 2.0.0
- */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>;
 /**
  * @since 2.0.0
  */
@@ -103,6 +84,12 @@ export declare function local<Q, R>(f: (f: Q) => R): <E, A>(ma: ReaderEither<R, 
 /**
  * @since 2.0.0
  */
-export declare const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI>;
-declare const alt: <U, L, A>(that: () => ReaderEither<U, L, A>) => (fa: ReaderEither<U, L, A>) => ReaderEither<U, L, A>, ap: <U, L, A>(fa: ReaderEither<U, L, A>) => <B>(fab: ReaderEither<U, L, (a: A) => B>) => ReaderEither<U, L, B>, apFirst: <U, L, B>(fb: ReaderEither<U, L, B>) => <A>(fa: ReaderEither<U, L, A>) => ReaderEither<U, L, A>, apSecond: <U, L, B>(fb: ReaderEither<U, L, B>) => <A>(fa: ReaderEither<U, L, A>) => ReaderEither<U, L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => <U>(fa: ReaderEither<U, L, A>) => ReaderEither<U, M, B>, chain: <U, L, A, B>(f: (a: A) => ReaderEither<U, L, B>) => (ma: ReaderEither<U, L, A>) => ReaderEither<U, L, B>, chainFirst: <U, L, A, B>(f: (a: A) => ReaderEither<U, L, B>) => (ma: ReaderEither<U, L, A>) => ReaderEither<U, L, A>, flatten: <U, L, A>(mma: ReaderEither<U, L, ReaderEither<U, L, A>>) => ReaderEither<U, L, A>, map: <A, B>(f: (a: A) => B) => <U, L>(fa: ReaderEither<U, L, A>) => ReaderEither<U, L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => <U>(fa: ReaderEither<U, L, A>) => ReaderEither<U, M, A>;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft };
+export declare const readerEither: Monad3<URI> & Bifunctor3<URI> & Alt3<URI> & MonadThrow3<URI>;
+declare const alt: <R, E, A>(that: () => ReaderEither<R, E, A>) => (fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>, ap: <R, E, A>(fa: ReaderEither<R, E, A>) => <B>(fab: ReaderEither<R, E, (a: A) => B>) => ReaderEither<R, E, B>, apFirst: <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, A>, apSecond: <R, E, B>(fb: ReaderEither<R, E, B>) => <A>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>, bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, B>, chain: <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>, chainFirst: <R, E, A, B>(f: (a: A) => ReaderEither<R, E, B>) => (ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>, flatten: <R, E, A>(mma: ReaderEither<R, E, ReaderEither<R, E, A>>) => ReaderEither<R, E, A>, map: <A, B>(f: (a: A) => B) => <R, E>(fa: ReaderEither<R, E, A>) => ReaderEither<R, E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => <R>(fa: ReaderEither<R, E, A>) => ReaderEither<R, G, A>, fromEither: <R, E, A>(ma: E.Either<E, A>) => ReaderEither<R, E, A>, fromOption: <E>(onNone: () => E) => <R, A>(ma: import("./Option").Option<A>) => ReaderEither<R, E, A>, fromPredicate: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): <U>(a: A) => ReaderEither<U, E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): <R>(a: A) => ReaderEither<R, E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): <R>(ma: ReaderEither<R, E, A>) => ReaderEither<R, E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft, fromEither, fromOption, fromPredicate, filterOrElse };

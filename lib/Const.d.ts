@@ -7,8 +7,8 @@ import { Semigroup } from './Semigroup';
 import { Eq } from './Eq';
 import { Show } from './Show';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Const: Const<L, A>;
+    interface URItoKind2<E, A> {
+        Const: Const<E, A>;
     }
 }
 /**
@@ -22,32 +22,32 @@ export declare type URI = typeof URI;
 /**
  * @since 2.0.0
  */
-export declare type Const<L, A> = L & {
+export declare type Const<E, A> = E & {
     readonly _A: A;
 };
 /**
  * @since 2.0.0
  */
-export declare const make: <L>(l: L) => Const<L, never>;
+export declare const make: <E>(l: E) => Const<E, never>;
 /**
  * @since 2.0.0
  */
-export declare function getShow<L, A>(S: Show<L>): Show<Const<L, A>>;
+export declare function getShow<E, A>(S: Show<E>): Show<Const<E, A>>;
 /**
  * @since 2.0.0
  */
-export declare const getEq: <L, A>(E: Eq<L>) => Eq<Const<L, A>>;
+export declare const getEq: <E, A>(E: Eq<E>) => Eq<Const<E, A>>;
 /**
  * @since 2.0.0
  */
-export declare function getApply<L>(S: Semigroup<L>): Apply2C<URI, L>;
+export declare function getApply<E>(S: Semigroup<E>): Apply2C<URI, E>;
 /**
  * @since 2.0.0
  */
-export declare function getApplicative<L>(M: Monoid<L>): Applicative2C<URI, L>;
+export declare function getApplicative<E>(M: Monoid<E>): Applicative2C<URI, E>;
 /**
  * @since 2.0.0
  */
 export declare const const_: Functor2<URI> & Contravariant2<URI>;
-declare const contramap: <A, B>(f: (b: B) => A) => <L>(fa: Const<L, A>) => Const<L, B>, map: <A, B>(f: (a: A) => B) => <L>(fa: Const<L, A>) => Const<L, B>;
+declare const contramap: <A, B>(f: (b: B) => A) => <E>(fa: Const<E, A>) => Const<E, B>, map: <A, B>(f: (a: A) => B) => <E>(fa: Const<E, A>) => Const<E, B>;
 export { contramap, map };

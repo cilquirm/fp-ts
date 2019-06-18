@@ -32,8 +32,9 @@ import { ChainRec2 } from './ChainRec';
 import { Eq } from './Eq';
 import { Extend2 } from './Extend';
 import { Foldable2 } from './Foldable';
-import { Lazy, Predicate, Refinement } from './function';
+import { Lazy, Predicate } from './function';
 import { Monad2, Monad2C } from './Monad';
+import { MonadThrow2 } from './MonadThrow';
 import { Monoid } from './Monoid';
 import { Option } from './Option';
 import { Semigroup } from './Semigroup';
@@ -41,8 +42,8 @@ import { Show } from './Show';
 import { Traversable2 } from './Traversable';
 import { Witherable2C } from './Witherable';
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        Either: Either<L, A>;
+    interface URItoKind2<E, A> {
+        Either: Either<E, A>;
     }
 }
 /**
@@ -86,15 +87,6 @@ export declare function left<E>(e: E): Either<E, never>;
  */
 export declare function right<A>(a: A): Either<never, A>;
 /**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => Either<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromPredicate<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>;
-export declare function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>;
-/**
  * Takes a default and a nullable value, if the value is not nully, turn it into a `Right`, if the value is nully use
  * the provided default as a `Left`
  *
@@ -134,7 +126,7 @@ export declare function tryCatch<E, A>(f: Lazy<A>, onError: (e: unknown) => E): 
 /**
  * @since 2.0.0
  */
-export declare function fold<E, A, R>(onLeft: (e: E) => R, onRight: (a: A) => R): (ma: Either<E, A>) => R;
+export declare function fold<E, A, B>(onLeft: (e: E) => B, onRight: (a: A) => B): (ma: Either<E, A>) => B;
 /**
  * @since 2.0.0
  */
@@ -211,10 +203,20 @@ export declare function getOrElse<E, A>(f: (e: E) => A): (ma: Either<E, A>) => A
  */
 export declare function elem<A>(E: Eq<A>): <E>(a: A, ma: Either<E, A>) => boolean;
 /**
+ * Returns `false` if `Left` or returns the result of the application of the given predicate to the `Right` value.
+ *
+ * @example
+ * import { exists, left, right } from 'fp-ts/lib/Either'
+ *
+ * const gt2 = exists((n: number) => n > 2)
+ *
+ * assert.strictEqual(gt2(left('a')), false)
+ * assert.strictEqual(gt2(right(1)), false)
+ * assert.strictEqual(gt2(right(3)), true)
+ *
  * @since 2.0.0
  */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>;
+export declare function exists<A>(predicate: Predicate<A>): <E>(ma: Either<E, A>) => boolean;
 /**
  * Converts a JavaScript Object Notation (JSON) string into an object.
  *
@@ -262,6 +264,12 @@ export declare function getValidationMonoid<E, A>(SE: Semigroup<E>, SA: Monoid<A
 /**
  * @since 2.0.0
  */
-export declare const either: Monad2<URI> & Foldable2<URI> & Traversable2<URI> & Bifunctor2<URI> & Alt2<URI> & Extend2<URI> & ChainRec2<URI>;
-declare const alt: <L, A>(that: () => Either<L, A>) => (fa: Either<L, A>) => Either<L, A>, ap: <L, A>(fa: Either<L, A>) => <B>(fab: Either<L, (a: A) => B>) => Either<L, B>, apFirst: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, A>, apSecond: <L, B>(fb: Either<L, B>) => <A>(fa: Either<L, A>) => Either<L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: Either<L, A>) => Either<M, B>, chain: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, B>, chainFirst: <L, A, B>(f: (a: A) => Either<L, B>) => (ma: Either<L, A>) => Either<L, A>, duplicate: <L, A>(ma: Either<L, A>) => Either<L, Either<L, A>>, extend: <L, A, B>(f: (fa: Either<L, A>) => B) => (ma: Either<L, A>) => Either<L, B>, flatten: <L, A>(mma: Either<L, Either<L, A>>) => Either<L, A>, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <L>(fa: Either<L, A>) => M, map: <A, B>(f: (a: A) => B) => <L>(fa: Either<L, A>) => Either<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: Either<L, A>) => Either<M, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <L>(fa: Either<L, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <L>(fa: Either<L, A>) => B;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, duplicate, extend, flatten, foldMap, map, mapLeft, reduce, reduceRight };
+export declare const either: Monad2<URI> & Foldable2<URI> & Traversable2<URI> & Bifunctor2<URI> & Alt2<URI> & Extend2<URI> & ChainRec2<URI> & MonadThrow2<URI>;
+declare const alt: <E, A>(that: () => Either<E, A>) => (fa: Either<E, A>) => Either<E, A>, ap: <E, A>(fa: Either<E, A>) => <B>(fab: Either<E, (a: A) => B>) => Either<E, B>, apFirst: <E, B>(fb: Either<E, B>) => <A>(fa: Either<E, A>) => Either<E, A>, apSecond: <e, B>(fb: Either<e, B>) => <A>(fa: Either<e, A>) => Either<e, B>, bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: Either<E, A>) => Either<G, B>, chain: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, B>, chainFirst: <E, A, B>(f: (a: A) => Either<E, B>) => (ma: Either<E, A>) => Either<E, A>, duplicate: <E, A>(ma: Either<E, A>) => Either<E, Either<E, A>>, extend: <E, A, B>(f: (fa: Either<E, A>) => B) => (ma: Either<E, A>) => Either<E, B>, flatten: <E, A>(mma: Either<E, Either<E, A>>) => Either<E, A>, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => <E>(fa: Either<E, A>) => M, map: <A, B>(f: (a: A) => B) => <E>(fa: Either<E, A>) => Either<E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => (fa: Either<E, A>) => Either<G, A>, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => <E>(fa: Either<E, A>) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => <E>(fa: Either<E, A>) => B, fromOption: <E>(onNone: () => E) => <A>(ma: Option<A>) => Either<E, A>, fromPredicate: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (a: A) => Either<E, B>;
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => Either<E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, B>;
+    <E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: Either<E, A>) => Either<E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, duplicate, extend, flatten, foldMap, map, mapLeft, reduce, reduceRight, fromOption, fromPredicate, filterOrElse };

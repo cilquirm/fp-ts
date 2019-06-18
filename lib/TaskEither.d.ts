@@ -5,20 +5,19 @@
 import { Alt2, Alt2C } from './Alt';
 import { Bifunctor2 } from './Bifunctor';
 import * as E from './Either';
-import { Lazy, Predicate, Refinement } from './function';
+import { Lazy } from './function';
 import { IO } from './IO';
 import { IOEither } from './IOEither';
 import { Monad2, Monad2C } from './Monad';
-import { MonadIO2 } from './MonadIO';
 import { MonadTask2 } from './MonadTask';
+import { MonadThrow2 } from './MonadThrow';
 import { Monoid } from './Monoid';
-import { Option } from './Option';
 import { Semigroup } from './Semigroup';
 import { Task } from './Task';
 import Either = E.Either;
 declare module './HKT' {
-    interface URI2HKT2<L, A> {
-        TaskEither: TaskEither<L, A>;
+    interface URItoKind2<E, A> {
+        TaskEither: TaskEither<E, A>;
     }
 }
 /**
@@ -61,24 +60,11 @@ export declare const leftTask: <E>(me: Task<E>) => TaskEither<E, never>;
 /**
  * @since 2.0.0
  */
-export declare const fromEither: <E, A>(ma: Either<E, A>) => TaskEither<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fromOption<E>(onNone: () => E): <A>(ma: Option<A>) => TaskEither<E, A>;
-/**
- * @since 2.0.0
- */
 export declare const fromIOEither: <E, A>(fa: IOEither<E, A>) => TaskEither<E, A>;
 /**
  * @since 2.0.0
  */
-export declare function fromPredicate<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>;
-export declare function fromPredicate<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>;
-/**
- * @since 2.0.0
- */
-export declare function fold<E, A, R>(onLeft: (e: E) => Task<R>, onRight: (a: A) => Task<R>): (ma: TaskEither<E, A>) => Task<R>;
+export declare function fold<E, A, B>(onLeft: (e: E) => Task<B>, onRight: (a: A) => Task<B>): (ma: TaskEither<E, A>) => Task<B>;
 /**
  * @since 2.0.0
  */
@@ -87,11 +73,6 @@ export declare function getOrElse<E, A>(f: (e: E) => Task<A>): (ma: TaskEither<E
  * @since 2.0.0
  */
 export declare function orElse<E, A, M>(f: (e: E) => TaskEither<M, A>): (ma: TaskEither<E, A>) => TaskEither<M, A>;
-/**
- * @since 2.0.0
- */
-export declare function filterOrElse<E, A, B extends A>(refinement: Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>;
-export declare function filterOrElse<E, A>(predicate: Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>;
 /**
  * @since 2.0.0
  */
@@ -161,12 +142,18 @@ export declare function getTaskValidation<E>(S: Semigroup<E>): Monad2C<URI, E> &
 /**
  * @since 2.0.0
  */
-export declare const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadIO2<URI> & MonadTask2<URI>;
+export declare const taskEither: Monad2<URI> & Bifunctor2<URI> & Alt2<URI> & MonadTask2<URI> & MonadThrow2<URI>;
 /**
  * Like `TaskEither` but `ap` is sequential
  *
  * @since 2.0.0
  */
 export declare const taskEitherSeq: typeof taskEither;
-declare const alt: <L, A>(that: () => TaskEither<L, A>) => (fa: TaskEither<L, A>) => TaskEither<L, A>, ap: <L, A>(fa: TaskEither<L, A>) => <B>(fab: TaskEither<L, (a: A) => B>) => TaskEither<L, B>, apFirst: <L, B>(fb: TaskEither<L, B>) => <A>(fa: TaskEither<L, A>) => TaskEither<L, A>, apSecond: <L, B>(fb: TaskEither<L, B>) => <A>(fa: TaskEither<L, A>) => TaskEither<L, B>, bimap: <L, A, M, B>(f: (l: L) => M, g: (a: A) => B) => (fa: TaskEither<L, A>) => TaskEither<M, B>, chain: <L, A, B>(f: (a: A) => TaskEither<L, B>) => (ma: TaskEither<L, A>) => TaskEither<L, B>, chainFirst: <L, A, B>(f: (a: A) => TaskEither<L, B>) => (ma: TaskEither<L, A>) => TaskEither<L, A>, flatten: <L, A>(mma: TaskEither<L, TaskEither<L, A>>) => TaskEither<L, A>, map: <A, B>(f: (a: A) => B) => <L>(fa: TaskEither<L, A>) => TaskEither<L, B>, mapLeft: <L, A, M>(f: (l: L) => M) => (fa: TaskEither<L, A>) => TaskEither<M, A>;
-export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft };
+declare const alt: <E, A>(that: () => TaskEither<E, A>) => (fa: TaskEither<E, A>) => TaskEither<E, A>, ap: <E, A>(fa: TaskEither<E, A>) => <B>(fab: TaskEither<E, (a: A) => B>) => TaskEither<E, B>, apFirst: <E, B>(fb: TaskEither<E, B>) => <A>(fa: TaskEither<E, A>) => TaskEither<E, A>, apSecond: <e, B>(fb: TaskEither<e, B>) => <A>(fa: TaskEither<e, A>) => TaskEither<e, B>, bimap: <E, G, A, B>(f: (e: E) => G, g: (a: A) => B) => (fa: TaskEither<E, A>) => TaskEither<G, B>, chain: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, B>, chainFirst: <E, A, B>(f: (a: A) => TaskEither<E, B>) => (ma: TaskEither<E, A>) => TaskEither<E, A>, flatten: <E, A>(mma: TaskEither<E, TaskEither<E, A>>) => TaskEither<E, A>, map: <A, B>(f: (a: A) => B) => <E>(fa: TaskEither<E, A>) => TaskEither<E, B>, mapLeft: <E, G, A>(f: (e: E) => G) => (fa: TaskEither<E, A>) => TaskEither<G, A>, fromEither: <E, A>(ma: E.Either<E, A>) => TaskEither<E, A>, fromOption: <E>(onNone: () => E) => <A>(ma: import("./Option").Option<A>) => TaskEither<E, A>, fromPredicate: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (a: A) => TaskEither<E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): (a: A) => TaskEither<E, A>;
+}, filterOrElse: {
+    <E, A, B extends A>(refinement: import("./function").Refinement<A, B>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, B>;
+    <E, A>(predicate: import("./function").Predicate<A>, onFalse: (a: A) => E): (ma: TaskEither<E, A>) => TaskEither<E, A>;
+};
+export { alt, ap, apFirst, apSecond, bimap, chain, chainFirst, flatten, map, mapLeft, fromEither, fromOption, fromPredicate, filterOrElse };

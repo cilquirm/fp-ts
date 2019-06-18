@@ -16,13 +16,12 @@ import { Monoid } from './Monoid';
 import { NonEmptyArray } from './NonEmptyArray';
 import { Option } from './Option';
 import { Ord } from './Ord';
-import { Plus1 } from './Plus';
 import { Show } from './Show';
 import { TraversableWithIndex1 } from './TraversableWithIndex';
 import { Unfoldable1 } from './Unfoldable';
 import { Witherable1 } from './Witherable';
 declare module './HKT' {
-    interface URI2HKT<A> {
+    interface URItoKind<A> {
         Array: Array<A>;
     }
 }
@@ -559,7 +558,7 @@ export declare function reverse<A>(as: Array<A>): Array<A>;
  *
  * @since 2.0.0
  */
-export declare function rights<L, A>(as: Array<Either<L, A>>): Array<A>;
+export declare function rights<E, A>(as: Array<Either<E, A>>): Array<A>;
 /**
  * Extracts from an array of `Either` all the `Left` elements. All the `Left` elements are extracted in order
  *
@@ -571,7 +570,7 @@ export declare function rights<L, A>(as: Array<Either<L, A>>): Array<A>;
  *
  * @since 2.0.0
  */
-export declare function lefts<L, A>(as: Array<Either<L, A>>): Array<L>;
+export declare function lefts<E, A>(as: Array<Either<E, A>>): Array<E>;
 /**
  * Sort the elements of an array in increasing order, creating a new array
  *
@@ -663,14 +662,14 @@ export declare function uniq<A>(E: Eq<A>): (as: Array<A>) => Array<A>;
  *
  * @example
  * import { sortBy } from 'fp-ts/lib/Array'
- * import { contramap, ordString, ordNumber } from 'fp-ts/lib/Ord'
+ * import { ord, ordString, ordNumber } from 'fp-ts/lib/Ord'
  *
  * interface Person {
  *   name: string
  *   age: number
  * }
- * const byName = contramap(ordString, (p: Person) => p.name)
- * const byAge = contramap(ordNumber, (p: Person) => p.age)
+ * const byName = ord.contramap(ordString, (p: Person) => p.name)
+ * const byAge = ord.contramap(ordNumber, (p: Person) => p.age)
  *
  * const sortByNameByAge = sortBy([byName, byAge])
  *
@@ -806,7 +805,7 @@ export declare const of: <A>(a: A) => A[];
 /**
  * @since 2.0.0
  */
-export declare const array: Monad1<URI> & Foldable1<URI> & Unfoldable1<URI> & TraversableWithIndex1<URI, number> & Alternative1<URI> & Plus1<URI> & Extend1<URI> & Compactable1<URI> & FilterableWithIndex1<URI, number> & Witherable1<URI> & FunctorWithIndex1<URI, number> & FoldableWithIndex1<URI, number>;
+export declare const array: Monad1<URI> & Foldable1<URI> & Unfoldable1<URI> & TraversableWithIndex1<URI, number> & Alternative1<URI> & Extend1<URI> & Compactable1<URI> & FilterableWithIndex1<URI, number> & Witherable1<URI> & FunctorWithIndex1<URI, number> & FoldableWithIndex1<URI, number>;
 declare const alt: <A>(that: () => A[]) => (fa: A[]) => A[], ap: <A>(fa: A[]) => <B>(fab: ((a: A) => B)[]) => B[], apFirst: <B>(fb: B[]) => <A>(fa: A[]) => A[], apSecond: <B>(fb: B[]) => <A>(fa: A[]) => B[], chain: <A, B>(f: (a: A) => B[]) => (ma: A[]) => B[], chainFirst: <A, B>(f: (a: A) => B[]) => (ma: A[]) => A[], duplicate: <A>(ma: A[]) => A[][], extend: <A, B>(f: (fa: A[]) => B) => (ma: A[]) => B[], filter: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => B[];
     <A>(predicate: Predicate<A>): (fa: A[]) => A[];
@@ -816,7 +815,7 @@ declare const alt: <A>(that: () => A[]) => (fa: A[]) => A[], ap: <A>(fa: A[]) =>
 }, foldMap: <M>(M: Monoid<M>) => <A>(f: (a: A) => M) => (fa: A[]) => M, foldMapWithIndex: <M>(M: Monoid<M>) => <A>(f: (i: number, a: A) => M) => (fa: A[]) => M, map: <A, B>(f: (a: A) => B) => (fa: A[]) => B[], mapWithIndex: <A, B>(f: (i: number, a: A) => B) => (fa: A[]) => B[], partition: {
     <A, B extends A>(refinement: Refinement<A, B>): (fa: A[]) => Separated<A[], B[]>;
     <A>(predicate: Predicate<A>): (fa: A[]) => Separated<A[], A[]>;
-}, partitionMap: <A, RL, RR>(f: (a: A) => Either<RL, RR>) => (fa: A[]) => Separated<RL[], RR[]>, partitionMapWithIndex: <A, RL, RR>(f: (i: number, a: A) => Either<RL, RR>) => (fa: A[]) => Separated<RL[], RR[]>, partitionWithIndex: {
+}, partitionMap: <A, B, C>(f: (a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>, partitionMapWithIndex: <A, B, C>(f: (i: number, a: A) => Either<B, C>) => (fa: A[]) => Separated<B[], C[]>, partitionWithIndex: {
     <A, B extends A>(refinementWithIndex: import("./FilterableWithIndex").RefinementWithIndex<number, A, B>): (fa: A[]) => Separated<A[], B[]>;
     <A>(predicateWithIndex: import("./FilterableWithIndex").PredicateWithIndex<number, A>): (fa: A[]) => Separated<A[], A[]>;
 }, reduce: <A, B>(b: B, f: (b: B, a: A) => B) => (fa: A[]) => B, reduceRight: <A, B>(b: B, f: (a: A, b: B) => B) => (fa: A[]) => B, reduceRightWithIndex: <A, B>(b: B, f: (i: number, a: A, b: B) => B) => (fa: A[]) => B, reduceWithIndex: <A, B>(b: B, f: (i: number, b: B, a: A) => B) => (fa: A[]) => B, compact: <A>(fa: Option<A>[]) => A[], separate: <A, B>(fa: Either<A, B>[]) => Separated<A[], B[]>;
